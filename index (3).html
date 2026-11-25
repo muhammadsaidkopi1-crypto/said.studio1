@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0a0907">
+<title>SAID STUDIO — Roblox Toolkit</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23e6c97c'/%3E%3Cstop offset='1' stop-color='%23a8812f'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='112' fill='%2315120d'/%3E%3Cpath d='M256 96 416 256 256 416 96 256Z' fill='none' stroke='url(%23g)' stroke-width='14' stroke-linejoin='round'/%3E%3Cpath d='M256 168 344 256 256 344 168 256Z' fill='url(%23g)'/%3E%3Cpath d='M48 256H120M392 256H464' stroke='url(%23g)' stroke-width='10' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Inter:wght@400;500;600&display=swap" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Inter:wght@400;500;600&display=swap"></noscript>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script>try{var __t=localStorage.getItem("said_theme");document.documentElement.setAttribute("data-theme",__t==="light"?"light":"dark")}catch(e){document.documentElement.setAttribute("data-theme","dark")}</script>
+<style>
+:root{--bg:#0a0907;--surface:#14110d;--glass:rgba(22,19,14,.58);--ink:#f2ebdc;--mute:#a1988a;--line:rgba(212,178,94,.17);--line2:rgba(255,255,255,.06);--gold:#d4b25e;--gold2:#f1d78d;--shine:#fff3c9;--on:#17130b;--stage:#070605;--glow:rgba(212,178,94,.16);--shadow:0 24px 60px -30px rgba(0,0,0,.9);--ok:#6fbf86;--warn:#e0a24a;--bad:#e06a5a;--cu:#d08a62;--si:#b9bfcc;--sg:#7fb68b;color-scheme:dark;box-sizing:border-box;padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme="light"]{--bg:#f7f2e8;--surface:#fffdf8;--glass:rgba(255,253,248,.72);--ink:#25211a;--mute:#6b6356;--line:rgba(154,116,32,.26);--line2:rgba(60,45,15,.08);--gold:#9a7420;--gold2:#c9a44c;--shine:#5e430c;--on:#fffdf8;--stage:#1a1713;--glow:rgba(168,129,47,.15);--shadow:0 24px 50px -30px rgba(90,65,20,.45);--cu:#b4673e;--si:#8a92a3;--sg:#4f8d5f;color-scheme:light}
+html{scroll-padding-top:70px;scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 15px/1.6 Inter,system-ui,sans-serif;min-height:100vh;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;transition:background .5s,color .5s}
+::selection{background:var(--gold);color:var(--on)}
+[hidden]{display:none!important}
+button{font:inherit;cursor:pointer;color:inherit}
+select option{background:var(--surface);color:var(--ink)}
+.fx{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.orb{position:absolute;border-radius:50%;filter:blur(90px);opacity:.55;will-change:transform}
+.o1{width:46vmax;height:46vmax;left:-12vmax;top:-18vmax;background:radial-gradient(circle,rgba(212,178,94,.4),transparent 65%);animation:float1 22s ease-in-out infinite alternate}
+.o2{width:40vmax;height:40vmax;right:-14vmax;top:18vh;background:radial-gradient(circle,rgba(201,128,90,.24),transparent 65%);animation:float2 28s ease-in-out infinite alternate}
+.o3{width:36vmax;height:36vmax;left:24vw;bottom:-24vmax;background:radial-gradient(circle,rgba(96,116,170,.2),transparent 65%);animation:float1 34s ease-in-out infinite alternate-reverse}
+:root[data-theme="light"] .orb{opacity:.32}
+:root[data-theme="light"] .grain{display:none}
+.gbg{position:absolute;inset:0;background-image:linear-gradient(var(--line2) 1px,transparent 1px),linear-gradient(90deg,var(--line2) 1px,transparent 1px);background-size:58px 58px;-webkit-mask-image:radial-gradient(ellipse 75% 55% at 50% 0%,#000,transparent 78%);mask-image:radial-gradient(ellipse 75% 55% at 50% 0%,#000,transparent 78%)}
+.fx canvas{position:absolute;inset:0;width:100%;height:100%}
+.grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.055;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.cur{position:fixed;left:0;top:0;width:460px;height:460px;margin:-230px 0 0 -230px;border-radius:50%;background:radial-gradient(circle,var(--glow),transparent 62%);pointer-events:none;z-index:1;opacity:0;transition:opacity .5s;will-change:transform}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px;position:relative;z-index:2}
+header{display:flex;align-items:center;justify-content:space-between;padding:calc(26px + env(safe-area-inset-top,0px)) 0 20px}
+.logo{display:flex;align-items:center;gap:14px;font:600 26px/1 "Cormorant Garamond",Georgia,serif;letter-spacing:.32em;white-space:nowrap}
+.logo span{background:linear-gradient(100deg,var(--ink) 30%,var(--shine) 50%,var(--ink) 70%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:shine 9s linear infinite}
+.logo i{font-style:normal;color:var(--gold);-webkit-text-fill-color:var(--gold)}
+.logo .mk{width:30px;height:30px;stroke:var(--gold);fill:none;stroke-width:2.4;stroke-linejoin:round;flex:none;animation:glowp 3.2s ease-in-out infinite}
+.logo .mk path:last-child{fill:var(--gold);stroke:none}
+.badge{display:flex;gap:14px;align-items:center}
+.live{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border:1px solid var(--line);border-radius:999px;background:var(--glass);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.live i,.pill i{width:7px;height:7px;border-radius:50%;background:var(--ok);animation:pulse 2s infinite}
+.theme{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--glass);color:var(--ink);transition:transform .5s,border-color .3s,color .3s;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.theme:hover{border-color:var(--gold);color:var(--gold);transform:rotate(180deg)}
+.tabs{position:sticky;top:0;z-index:60;padding-top:env(safe-area-inset-top,0px);background:color-mix(in srgb,var(--bg) 70%,transparent);backdrop-filter:blur(18px) saturate(1.5);-webkit-backdrop-filter:blur(18px) saturate(1.5);border-top:1px solid var(--line2);border-bottom:1px solid var(--line)}
+.tabscroll{overflow-x:auto;scrollbar-width:none;padding:8px 16px}
+.tabscroll::-webkit-scrollbar{display:none}
+.tabrow{position:relative;display:flex;gap:2px;width:max-content;margin:0 auto;padding-bottom:4px}
+.tabs button{display:inline-flex;align-items:center;gap:9px;white-space:nowrap;background:none;border:0;color:var(--mute);padding:11px 20px;letter-spacing:.14em;text-transform:uppercase;font-size:11.5px;font-weight:600;border-radius:10px;transition:color .25s,background .25s}
+.tabs button svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.tabs button:hover{color:var(--ink)}
+.tabs button.on{color:var(--gold);background:color-mix(in srgb,var(--gold) 10%,transparent)}
+.ind{position:absolute;left:0;bottom:0;height:2px;width:0;background:linear-gradient(90deg,transparent,var(--gold),transparent);box-shadow:0 0 14px var(--gold);transition:left .5s cubic-bezier(.3,.8,.2,1),width .5s cubic-bezier(.3,.8,.2,1)}
+.dtab,.mtab,.atab,.gtab,.utab{display:none}
+body.dash .dtab,body.mesh .mtab,body.glb .gtab,body.ai .atab,body.aud .utab{display:block}
+body.dash .sky,body.mesh .sky,body.glb .sky,body.ai .sky,body.aud .sky{display:none}
+.hero{text-align:center;padding:60px 0 44px;animation:rise .9s cubic-bezier(.2,.7,.2,1) backwards}
+.hero h1{font:500 clamp(36px,6.4vw,66px)/1.06 "Cormorant Garamond",Georgia,serif;margin:0 0 16px;letter-spacing:-.01em}
+.hero h1::before{content:"";display:block;width:64px;height:1px;margin:0 auto 24px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.hero h1 em{font-style:italic;background:linear-gradient(100deg,var(--gold) 20%,var(--gold2) 38%,var(--shine) 50%,var(--gold2) 62%,var(--gold) 80%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;animation:shine 7s linear infinite}
+.hero p{margin:0 auto;max-width:580px;color:var(--mute)}
+.dhero h1::before{display:none}
+.pill{display:inline-flex;align-items:center;gap:9px;padding:7px 16px;border:1px solid var(--line);border-radius:999px;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);background:color-mix(in srgb,var(--gold) 8%,transparent);margin-bottom:24px}
+.clock{display:inline-flex;align-items:baseline;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:28px;padding:11px 24px;border:1px solid var(--line);border-radius:999px;background:var(--glass);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.clock b{font:600 27px/1 "Cormorant Garamond",Georgia,serif;color:var(--gold);font-variant-numeric:tabular-nums;letter-spacing:.06em}
+.clock span{font-size:12px;color:var(--mute);letter-spacing:.08em}
+.chips{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:16px}
+.chip{padding:6px 14px;border:1px solid var(--line2);border-radius:999px;font-size:12px;color:var(--mute);background:color-mix(in srgb,var(--surface) 55%,transparent)}
+.chip b{color:var(--gold);font-weight:600;margin-right:3px}
+.grid{display:grid;grid-template-columns:1.5fr 1fr;gap:28px;padding-bottom:56px}
+@media(max-width:860px){.grid{grid-template-columns:1fr}}
+.card{position:relative;background:linear-gradient(180deg,color-mix(in srgb,var(--surface) 90%,transparent),var(--glass));backdrop-filter:blur(14px) saturate(1.2);-webkit-backdrop-filter:blur(14px) saturate(1.2);border:1px solid var(--line);border-radius:16px;padding:26px;box-shadow:var(--shadow),inset 0 1px 0 var(--line2);transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s,border-color .35s;animation:rise .8s cubic-bezier(.2,.7,.2,1) backwards}
+.card::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(420px circle at var(--mx,50%) var(--my,0%),var(--glow),transparent 58%);opacity:0;transition:opacity .35s}
+.card::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;pointer-events:none;background:radial-gradient(300px circle at var(--mx,50%) var(--my,0%),var(--gold),transparent 62%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);mask-composite:exclude;opacity:0;transition:opacity .35s}
+.card:hover::before,.card:hover::after{opacity:1}
+.grid>:nth-child(2),.dgrid>:nth-child(2),.dgrid2>:nth-child(2){animation-delay:.1s}
+.col>.card:nth-child(2),.col2>.card:nth-child(2){animation-delay:.18s}
+.lbl{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin:0 0 16px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.lbl span:first-child::before{content:"";display:inline-block;width:18px;height:1px;background:var(--gold);vertical-align:middle;margin-right:10px}
+.stage{position:relative;background:radial-gradient(ellipse at 50% 0%,#241f17,var(--stage));aspect-ratio:16/10;border-radius:10px;overflow:hidden;cursor:grab;touch-action:none;border:1px solid var(--line);box-shadow:inset 0 0 60px rgba(0,0,0,.55)}
+.stage:active{cursor:grabbing}
+.stage::before,.stage::after{content:"";position:absolute;width:18px;height:18px;border:1px solid var(--gold);pointer-events:none;z-index:3;opacity:.75}
+.stage::before{left:10px;top:10px;border-right:0;border-bottom:0}
+.stage::after{right:10px;bottom:10px;border-left:0;border-top:0}
+.stage canvas{display:block;width:100%;height:100%}
+.empty{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:#a79d89;font:italic 500 22px "Cormorant Garamond",Georgia,serif;pointer-events:none;padding:20px;animation:breathe 4s ease-in-out infinite}
+.hint{font-size:12px;color:var(--mute);text-align:center;margin:14px 0 0}
+.drop{display:block;width:100%;border:1px dashed var(--gold);border-radius:12px;padding:32px 18px;text-align:center;cursor:pointer;transition:background .3s,transform .3s,box-shadow .3s;margin:0 0 18px;background:color-mix(in srgb,var(--gold) 4%,transparent)}
+.drop:hover,.drop.on{background:color-mix(in srgb,var(--gold) 10%,transparent);transform:translateY(-2px);box-shadow:0 14px 34px -20px var(--gold)}
+.drop b{display:block;font:500 23px/1.2 "Cormorant Garamond",Georgia,serif}
+.drop span{display:block;font-size:12px;color:var(--mute);margin-top:4px}
+.drop svg{display:block;width:32px;height:32px;margin:0 auto 12px;stroke:var(--gold);fill:none;stroke-width:1.2;animation:bob 3s ease-in-out infinite}
+.stat{word-break:break-word;font-size:13px;color:var(--mute);padding:11px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:18px}
+.go{position:relative;overflow:hidden;width:100%;padding:15px;border:0;background:linear-gradient(135deg,var(--gold),var(--gold2) 55%,var(--gold));background-size:200% 100%;color:var(--on);font-weight:600;letter-spacing:.14em;text-transform:uppercase;font-size:12px;border-radius:10px;box-shadow:0 12px 28px -12px var(--gold),inset 0 1px 0 rgba(255,255,255,.35);transition:transform .25s,box-shadow .25s,background-position .6s}
+.go::after{content:"";position:absolute;top:0;bottom:0;left:-60%;width:40%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);transition:left .7s}
+.go:not(:disabled):hover{transform:translateY(-2px);background-position:100% 0;box-shadow:0 18px 34px -12px var(--gold),inset 0 1px 0 rgba(255,255,255,.4)}
+.go:not(:disabled):hover::after{left:130%}
+.go:not(:disabled):active{transform:translateY(0)}
+.go:disabled{opacity:.35;cursor:not-allowed;box-shadow:none}
+.row{margin:22px 0 0}
+.row label{display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px}
+.row label b{color:var(--gold);font-weight:600}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:22px;background:transparent;margin:0;cursor:pointer}
+input[type=range]::-webkit-slider-runnable-track{height:3px;border-radius:3px;background:var(--line)}
+input[type=range]::-moz-range-track{height:3px;border-radius:3px;background:var(--line)}
+input[type=range]::-moz-range-progress{height:3px;border-radius:3px;background:var(--gold)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;margin-top:-6.5px;background:radial-gradient(circle at 35% 30%,var(--gold2),var(--gold));border:2px solid var(--surface);box-shadow:0 0 0 1px var(--gold),0 0 14px var(--glow);transition:transform .2s}
+input[type=range]::-moz-range-thumb{width:12px;height:12px;border-radius:50%;background:var(--gold);border:2px solid var(--surface);box-shadow:0 0 0 1px var(--gold)}
+input[type=range]:hover::-webkit-slider-thumb{transform:scale(1.25)}
+.faces{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px}
+.face{background:color-mix(in srgb,var(--gold) 3%,transparent);border:1px solid var(--line);color:var(--ink);padding:13px 6px;border-radius:10px;text-align:center;transition:transform .25s,border-color .25s,color .25s,box-shadow .25s}
+.face:not(:disabled):hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px);box-shadow:0 12px 24px -16px var(--gold)}
+.face:disabled{opacity:.4;cursor:not-allowed}
+.face b{display:block;font:600 18px "Cormorant Garamond",Georgia,serif}
+.face small{font-size:10px;color:var(--mute);letter-spacing:.05em}
+.zip{width:100%;margin-top:16px;padding:13px;background:none;border:1px solid var(--gold);color:var(--gold);letter-spacing:.14em;text-transform:uppercase;font-size:12px;font-weight:600;border-radius:10px;transition:background .3s,color .3s,transform .25s,box-shadow .3s}
+.zip:not(:disabled):hover{background:var(--gold);color:var(--on);transform:translateY(-2px);box-shadow:0 14px 28px -14px var(--gold)}
+.zip:disabled{opacity:.35;cursor:not-allowed}
+.note{font-size:12px;color:var(--mute);margin:14px 0 0}
+.pr{margin-bottom:28px}
+.pr input[type=text]{width:100%;padding:13px 14px;margin:0 0 14px;background:color-mix(in srgb,var(--bg) 70%,transparent);border:1px solid var(--line);color:var(--ink);font:inherit;border-radius:10px;transition:border-color .25s,box-shadow .25s}
+.pr input[type=text]:focus,.ain textarea:focus{outline:0;border-color:var(--gold);box-shadow:0 0 0 3px var(--glow)}
+.ptxt{background:color-mix(in srgb,var(--bg) 70%,transparent);border:1px solid var(--line);padding:16px;font-size:13px;line-height:1.7;white-space:pre-wrap;word-break:break-word;border-radius:10px}
+.ptxt mark{background:color-mix(in srgb,var(--gold) 28%,transparent);color:var(--ink);padding:0 4px;border-radius:3px}
+.pr .zip{width:auto;padding:12px 22px;margin-top:14px}
+.chk{display:flex;gap:8px;align-items:center;font-size:13px;margin-top:18px}
+.chk input{accent-color:var(--gold)}
+.btns{display:grid;gap:10px;margin-top:20px}
+.btns .zip{margin:0}
+.sw{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:14px 0 0}
+.sw input{width:42px;height:30px;border:1px solid var(--line);background:none;padding:0;cursor:pointer;border-radius:8px}
+.sw button{width:28px;height:28px;border-radius:50%;border:2px solid var(--line);padding:0;transition:transform .2s}
+.sw button:hover{transform:scale(1.15)}
+.sw button.on{border-color:var(--ink);box-shadow:0 0 0 2px var(--surface) inset}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.col{display:grid;gap:28px;align-content:start}
+.ovl{position:absolute;top:16px;right:16px;display:flex;gap:6px;z-index:4}
+.ovl button{background:rgba(10,9,7,.6);border:1px solid #4a4233;color:#efe8da;padding:6px 12px;font-size:11px;border-radius:20px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:border-color .2s,color .2s}
+.ovl button:hover{border-color:var(--gold2);color:var(--gold2)}
+.thumbs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 14px}
+.thumbs>div{border:1px solid var(--line);border-radius:10px;background:var(--stage);overflow:hidden}
+.thumbs .cb{background:repeating-conic-gradient(#3a352c 0 25%,#27231d 0 50%) 0 0/14px 14px}
+.thumbs canvas{display:block;width:100%;height:110px;object-fit:contain;image-rendering:pixelated}
+.thumbs small{display:block;text-align:center;font-size:11px;color:var(--mute);padding:6px;background:var(--surface)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.sb{border:1px solid var(--line);padding:13px 6px;text-align:center;border-radius:10px;background:color-mix(in srgb,var(--gold) 3%,transparent)}
+.sb b{display:block;font:600 26px "Cormorant Garamond",Georgia,serif;color:var(--gold)}
+.sb small{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.bar{height:5px;background:var(--line);margin:16px 0 10px;border-radius:5px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .6s cubic-bezier(.2,.8,.2,1);border-radius:5px;box-shadow:0 0 12px var(--glow)}
+.mbadge{font-size:13px;color:var(--gold);margin:0}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:6px}
+.seg button{padding:10px 4px;border:1px solid var(--line);background:none;color:var(--mute);border-radius:10px;font-size:12px;transition:border-color .25s,color .25s,background .25s}
+.seg button:hover{color:var(--ink)}
+.seg button.on{border-color:var(--gold);color:var(--gold);background:color-mix(in srgb,var(--gold) 9%,transparent)}
+details.imp{margin-top:26px;border-top:1px solid var(--line);padding-top:14px;font-size:13px}
+details.imp summary{cursor:pointer;color:var(--gold);letter-spacing:.12em;text-transform:uppercase;font-size:11px}
+details.imp ol{padding-left:18px;color:var(--mute);margin:12px 0 0}
+details.imp li{margin-bottom:6px}
+.amodel{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:0 0 16px;border-bottom:1px solid var(--line)}
+.amodel span{font-size:11px;letter-spacing:.18em;color:var(--gold)}
+.amodel b{font:600 22px "Cormorant Garamond",Georgia,serif}
+.lnk{background:none;border:0;color:var(--mute);font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:6px 0;transition:color .2s}
+.lnk:hover{color:var(--gold)}
+.amodel .lnk{margin-left:auto}
+.awarn{margin:14px 0 0;padding:12px 14px;border-left:3px solid var(--gold);background:color-mix(in srgb,var(--gold) 8%,transparent);font-size:13px;border-radius:0 8px 8px 0}
+.chat{height:420px;overflow-y:auto;margin:16px 0;padding:4px;display:flex;flex-direction:column;gap:12px;scrollbar-width:thin;scrollbar-color:var(--gold) transparent}
+.aempty{margin:auto;text-align:center;color:var(--mute);font:italic 500 21px "Cormorant Garamond",Georgia,serif}
+.msg{max-width:90%;padding:12px 15px;border-radius:14px;font-size:14px;white-space:pre-wrap;word-break:break-word;border:1px solid var(--line);animation:rise .4s backwards}
+.msg.u{align-self:flex-end;background:color-mix(in srgb,var(--gold) 13%,transparent);border-bottom-right-radius:4px}
+.msg.a{align-self:flex-start;background:color-mix(in srgb,var(--bg) 70%,transparent);border-bottom-left-radius:4px}
+.msg pre{position:relative;margin:10px 0;padding:34px 14px 14px;background:var(--stage);color:#efe8da;border-radius:8px;overflow-x:auto;white-space:pre;font:12.5px/1.6 ui-monospace,Menlo,Consolas,monospace;border:1px solid #2e2a23}
+.msg pre button{position:absolute;top:6px;right:6px;background:none;border:1px solid #4a4233;color:#d4b25e;font-size:10px;padding:3px 8px;border-radius:6px}
+.ain{display:flex;gap:10px}
+.ain textarea{flex:1;resize:vertical;min-height:52px;padding:12px;background:color-mix(in srgb,var(--bg) 70%,transparent);border:1px solid var(--line);color:var(--ink);font:inherit;border-radius:10px;transition:border-color .25s,box-shadow .25s}
+.ain .go{width:auto;padding:0 28px}
+.kb{padding:10px 14px;border:1px solid var(--line);background:color-mix(in srgb,var(--gold) 4%,transparent);color:var(--ink);font-size:11px;letter-spacing:.1em;text-transform:uppercase;border-radius:8px;transition:border-color .25s,color .25s,transform .25s}
+.kb:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-1px)}
+footer{position:relative;z-index:2;padding:30px 0 40px;text-align:center;font-size:12px;letter-spacing:.2em;color:var(--mute);text-transform:uppercase}
+footer .fl{height:1px;margin:0 auto 24px;max-width:520px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.6}
+footer p{margin:0}footer span{color:var(--gold);margin:0 8px}
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:18px;margin-bottom:24px}
+@media(max-width:980px){.kpis{grid-template-columns:repeat(2,1fr)}}
+.kpis>:nth-child(2),.tiles>:nth-child(2){animation-delay:.07s}
+.kpis>:nth-child(3),.tiles>:nth-child(3){animation-delay:.14s}
+.kpis>:nth-child(4),.tiles>:nth-child(4){animation-delay:.21s}
+.kpi{padding:22px 22px 18px;overflow:hidden;min-height:176px}
+.ico{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;background:color-mix(in srgb,var(--gold) 12%,transparent);border:1px solid var(--line)}
+.ico svg{width:20px;height:20px;stroke:var(--gold);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.kpi .ico{margin-bottom:14px}
+.kl{margin:0;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+.kn{display:block;font:600 clamp(36px,4.2vw,50px)/1.1 "Cormorant Garamond",Georgia,serif;margin:4px 0 6px;font-variant-numeric:tabular-nums;background:linear-gradient(180deg,var(--ink),color-mix(in srgb,var(--ink) 55%,var(--gold)));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.kd{font-size:12px;color:var(--mute);position:relative;z-index:1}
+.kd b{color:var(--ok);font-weight:600}
+.spark{position:absolute;right:0;bottom:0;width:58%;height:50px;clip-path:inset(0 100% 0 0);animation:wipe 1.2s .25s cubic-bezier(.3,.7,.2,1) forwards;pointer-events:none}
+.sa{fill:url(#sparkg);stroke:none}
+.sl{fill:none;stroke:var(--gold);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.kpi:hover,.tile:hover{transform:translateY(-4px);border-color:color-mix(in srgb,var(--gold) 45%,var(--line))}
+.dgrid{display:grid;grid-template-columns:1.55fr 1fr;gap:24px;margin-bottom:24px}
+.dgrid2{display:grid;grid-template-columns:1.3fr 1fr;gap:24px;margin-bottom:56px}
+@media(max-width:860px){.dgrid,.dgrid2{grid-template-columns:1fr}.tiles{grid-template-columns:repeat(2,1fr)!important}}
+@media(max-width:480px){.tiles{grid-template-columns:1fr!important}.card{padding:20px}}
+.col2{display:grid;gap:24px;align-content:start}
+.chart{display:block;width:100%;height:auto;overflow:visible}
+.gl{stroke:var(--line2);stroke-width:1;stroke-dasharray:3 4}
+.ax{fill:var(--mute);font:10.5px Inter,system-ui,sans-serif}
+.ax.today{fill:var(--gold);font-weight:600}
+.gh{fill:none;stroke:var(--line);stroke-dasharray:3 4}
+.em{fill:var(--ink);font:italic 500 21px "Cormorant Garamond",Georgia,serif}
+.em2{fill:var(--mute);font:11.5px Inter,system-ui,sans-serif}
+.bar-sky,.bar-mesh,.bar-glb,.bar-ai{transform-box:fill-box;transform-origin:50% 100%;animation:grow .9s cubic-bezier(.2,.8,.2,1) backwards;transition:opacity .2s}
+.bar-sky{fill:var(--gold)}.bar-mesh{fill:var(--cu)}.bar-glb{fill:var(--si)}.bar-ai{fill:var(--sg)}
+.chart rect:hover{opacity:.75}
+.dgrid>.card:first-child{display:flex;flex-direction:column}
+.legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:auto;padding-top:14px;font-size:12px;color:var(--mute)}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:7px}
+.lg-sky{background:var(--gold)}.lg-mesh{background:var(--cu)}.lg-glb{background:var(--si)}.lg-ai{background:var(--sg)}
+.gauge{position:relative;width:min(210px,72%);margin:4px auto 6px}
+.gauge svg{display:block;width:100%}
+.gt{fill:none;stroke:var(--line);stroke-width:9}
+.gp{fill:none;stroke:url(#gg);stroke-width:9;stroke-linecap:round;stroke-dasharray:364.4;stroke-dashoffset:364.4;transition:stroke-dashoffset 1.4s cubic-bezier(.2,.8,.2,1);filter:drop-shadow(0 0 6px var(--glow))}
+.gp.bad{stroke:var(--bad)}
+.gc{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
+.gc b{font:600 42px/1 "Cormorant Garamond",Georgia,serif;font-variant-numeric:tabular-nums}
+.gc small{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute)}
+.gname{text-align:center;font:600 21px/1.2 "Cormorant Garamond",Georgia,serif;margin:8px 0 2px;word-break:break-word}
+.gpct{text-align:center;font-size:12px;color:var(--mute);margin:0 0 8px}
+.gb{text-align:center}
+.budget{margin-top:16px;padding-top:12px;border-top:1px solid var(--line2)}
+.bl{display:grid;grid-template-columns:78px 1fr 54px;gap:10px;align-items:center;font-size:12px;color:var(--mute);margin-top:9px}
+.bl i{display:block;height:5px;border-radius:5px;background:var(--line);overflow:hidden}
+.bl u{display:block;height:100%;border-radius:5px;background:linear-gradient(90deg,var(--gold),var(--gold2));transform-origin:left;animation:fillw 1.2s cubic-bezier(.2,.8,.2,1) backwards}
+.bl em{font-style:normal;text-align:right;font-variant-numeric:tabular-nums}
+.bl.me{color:var(--ink);font-weight:600}
+.bl.me u{background:linear-gradient(90deg,var(--ok),var(--gold2))}
+.sect{margin:10px 0 16px}
+.tiles{display:grid;grid-template-columns:repeat(5,1fr);gap:18px;margin-bottom:28px}
+.tile{text-align:left;display:flex;flex-direction:column;cursor:pointer;color:var(--ink);padding:22px}
+.tile h3{font:600 23px/1.2 "Cormorant Garamond",Georgia,serif;margin:14px 0 4px}
+.tile p{margin:0;font-size:13px;color:var(--mute)}
+.tile .go2{margin-top:auto;padding-top:16px;color:var(--gold);font-size:11px;letter-spacing:.16em;text-transform:uppercase;transition:transform .3s}
+.tile:hover .go2{transform:translateX(6px)}
+.feed,.sys{list-style:none;margin:0;padding:0}
+.feed li,.sys li{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--line2);font-size:13px}
+.feed li:last-child,.sys li:last-child{border-bottom:0}
+.feed span,.sys span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.feed small,.sys small{color:var(--mute);font-size:11.5px;white-space:nowrap}
+.feed li.empty{display:block;color:var(--mute);font-style:italic;white-space:normal;line-height:1.6;padding:6px 0}
+.dot{width:8px;height:8px;border-radius:50%;flex:none;background:var(--mute)}
+.d-sky{background:var(--gold)}.d-mesh{background:var(--cu)}.d-glb{background:var(--si)}.d-ai{background:var(--sg)}.d-dl{background:var(--gold2);box-shadow:0 0 0 2px color-mix(in srgb,var(--gold2) 25%,transparent)}
+.dot.ok{background:var(--ok);box-shadow:0 0 8px var(--ok)}.dot.warn{background:var(--warn)}
+.tip{font:500 21px/1.5 "Cormorant Garamond",Georgia,serif;margin:2px 0 12px;min-height:96px}
+.tip.in{animation:fadeup .6s cubic-bezier(.2,.7,.2,1)}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}}
+@keyframes fadeup{from{opacity:0;transform:translateY(8px)}}
+@keyframes shine{from{background-position:150% 0}to{background-position:-100% 0}}
+@keyframes float1{to{transform:translate(8vmax,6vmax) scale(1.15)}}
+@keyframes float2{to{transform:translate(-9vmax,-4vmax) scale(1.2)}}
+@keyframes pulse{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--ok) 60%,transparent)}70%,100%{box-shadow:0 0 0 8px transparent}}
+@keyframes glowp{0%,100%{filter:drop-shadow(0 0 3px var(--glow))}50%{filter:drop-shadow(0 0 12px var(--gold))}}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes breathe{0%,100%{opacity:.65}50%{opacity:1}}
+@keyframes grow{from{transform:scaleY(0)}}
+@keyframes fillw{from{transform:scaleX(0)}}
+@keyframes wipe{to{clip-path:inset(0 0 0 0)}}
+@media(max-width:620px){
+ .wrap{padding:0 16px}
+ .logo{font-size:19px;letter-spacing:.2em;gap:10px}
+ .logo .mk{width:24px;height:24px}
+ .live{display:none}
+ .hero{padding:40px 0 30px}
+ .tabs button{padding:10px 14px}
+ .card{padding:20px}
+ .two{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}.spark{clip-path:none}}
+:root{--au:#d17a94}:root[data-theme="light"]{--au:#a9506a}
+.bar-aud{fill:var(--au);transform-box:fill-box;transform-origin:50% 100%;animation:grow .9s cubic-bezier(.2,.8,.2,1) backwards;transition:opacity .2s}
+.lg-aud{background:var(--au)}.d-aud{background:var(--au)}
+.afl{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.afi{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:color-mix(in srgb,var(--gold) 3%,transparent);display:grid;grid-template-columns:1fr auto;gap:8px 14px;align-items:center}
+.afn{width:100%;background:transparent;border:0;border-bottom:1px solid var(--line2);color:var(--ink);font:inherit;font-weight:500;padding:3px 0;min-width:0}
+.afn:focus{outline:0;border-color:var(--gold)}
+.afn:disabled{opacity:.7}
+.afs{display:block;font-size:11px;color:var(--mute);margin-top:4px}
+.afr{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.afb{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;padding:4px 10px;border-radius:999px;border:1px solid var(--line);color:var(--mute);white-space:nowrap}
+.afb.up{color:var(--gold);border-color:var(--gold)}.afb.ok{color:var(--ok);border-color:var(--ok)}.afb.err{color:var(--warn);border-color:var(--warn)}
+.afi .bar{grid-column:1/-1;margin:2px 0 0;height:3px}
+.afe{grid-column:1/-1;font-size:12px;color:var(--warn);margin:0;word-break:break-word}
+.afi .kb{padding:6px 10px;font-size:10.5px}
+.afz{padding:26px 10px;text-align:center;color:var(--mute);font:italic 500 19px "Cormorant Garamond",Georgia,serif}
+.aban{border:1px solid var(--warn);border-radius:12px;padding:14px 16px;margin-bottom:24px;font-size:13px;color:var(--ink);background:color-mix(in srgb,var(--warn) 9%,transparent)}
+.aban b{color:var(--warn)}
+.aban code{font-size:12px;color:var(--gold)}
+.arej{font-size:12px;color:var(--warn);margin:10px 0 0;white-space:pre-line}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{overflow-x:hidden;min-height:100dvh}
+img,svg,canvas,video{max-width:100%}
+.orb{filter:none;will-change:auto}
+@media(max-width:860px),(pointer:coarse){
+ .grain,.cur,.fx canvas{display:none}
+ .orb{animation:none;opacity:.35}
+ .card,.tabs,.clock,.live,.theme{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+ .card{background:var(--surface)}
+ .tabs{background:var(--bg)}
+ .card::before,.card::after{display:none}
+ .logo span,.hero h1 em,.logo .mk{animation:none}
+ .drop svg,.empty{animation:none}
+}
+@media(max-width:980px){.kpis>:last-child:nth-child(odd){grid-column:1/-1}}
+@media(max-width:700px){
+ .wrap{padding:0 16px}
+ header{padding-bottom:12px}
+ .logo{font-size:19px;letter-spacing:.18em;gap:10px}
+ .logo .mk{width:24px;height:24px}
+ .live{display:none}
+ .hero{padding:32px 0 26px}
+ .hero h1::before{margin-bottom:16px}
+ .tabs button{padding:11px 14px}
+ .tabscroll{padding:6px 8px}
+ .sb b{font-size:22px}
+ .clock b{font-size:22px}
+ .clock{padding:9px 16px}
+ .afi{grid-template-columns:1fr}
+ .afr{justify-content:flex-start}
+ .kpi{min-height:150px;padding:16px}
+}
+@media(pointer:coarse){
+ input[type=text],input:not([type]),input[type=url],input[type=search],select,textarea{font-size:16px}
+ .go,.zip,.kb,.seg button,.face,.lnk{min-height:44px}
+}
+.tabs .mmb .ch{width:12px;height:12px;transition:transform .25s}
+.tabs .mmb[aria-expanded="true"] .ch{transform:rotate(180deg)}
+.tabs .mmb[aria-expanded="true"]{color:var(--gold)}
+.mp{position:absolute;left:50%;top:100%;transform:translate(-50%,10px);width:min(980px,calc(100vw - 24px));background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);max-height:calc(100dvh - 96px);overflow:auto;opacity:0;visibility:hidden;transition:opacity .2s,transform .2s,visibility .2s;z-index:70}
+.mp.on{opacity:1;visibility:visible;transform:translate(-50%,4px)}
+.mph{display:flex;align-items:center;gap:16px;padding:16px 20px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.mps{flex:1;min-width:200px;display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:10px;padding:0 12px;background:var(--bg);color:var(--mute)}
+.mps svg{width:16px;height:16px;flex:none;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round}
+.mps input{flex:1;min-width:0;background:none;border:0;color:var(--ink);font:inherit;padding:11px 0;outline:0}
+.mps:focus-within{border-color:var(--gold)}
+.mpc{font-size:11px;letter-spacing:.16em;color:var(--mute);text-transform:uppercase}
+.tabs .mpl{padding:6px 0;border-radius:0;font-size:11px;letter-spacing:.16em;color:var(--gold);background:none}
+.mpg{display:grid;grid-template-columns:repeat(4,1fr);gap:18px 24px;padding:20px}
+.mpt{font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:600;margin:0 0 8px;display:flex;gap:8px;align-items:center}
+.mpt::before{content:"";width:3px;height:12px;background:currentColor;border-radius:2px}
+.tabs .mpi{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:9px 8px;border-radius:8px;font-size:14px;letter-spacing:0;text-transform:none;font-weight:400;color:var(--ink);white-space:normal}
+.tabs .mpi svg{width:16px;height:16px;color:var(--mute)}
+.tabs .mpi:hover{background:color-mix(in srgb,var(--gold) 9%,transparent);color:var(--gold)}
+.tabs .mpi:hover svg{color:var(--gold)}
+.mpe{margin:0;padding:0 20px 22px;text-align:center;color:var(--mute);font-size:13px}
+@media(max-width:860px){.mpg{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.mpg{grid-template-columns:1fr;gap:14px;padding:16px}.mph{padding:12px 14px}.mpc{display:none}.mph .mpl{margin-left:auto}}
+.gcross{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-width:640px;margin:0 auto 16px}
+.gslot{aspect-ratio:1;border:1px dashed var(--line);border-radius:8px;display:grid;place-items:center;position:relative;overflow:hidden;cursor:pointer;font-size:12px;color:var(--mute);background:color-mix(in srgb,var(--gold) 3%,transparent);text-align:center;transition:border-color .25s}
+.gslot:hover{border-color:var(--gold)}
+.gslot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.gslot b{position:absolute;left:6px;top:6px;font-size:10px;background:var(--bg);padding:1px 6px;border-radius:4px;color:var(--ink);z-index:1}
+#stage:fullscreen{aspect-ratio:auto;width:100vw;height:100vh;border:0;border-radius:0}
+#stage:-webkit-full-screen{aspect-ratio:auto;width:100vw;height:100vh;border:0;border-radius:0}
+footer,.dgrid2{content-visibility:auto;contain-intrinsic-size:auto 420px}
+</style>
+<script defer src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/exporters/GLTFExporter.js"></script>
+</head>
+<body class="dash">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+<linearGradient id="sparkg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d4b25e" stop-opacity=".38"/><stop offset="1" stop-color="#d4b25e" stop-opacity="0"/></linearGradient>
+<linearGradient id="gg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f1d78d"/><stop offset="1" stop-color="#b8903a"/></linearGradient>
+</defs></svg>
+<div class="fx" aria-hidden="true"><i class="orb o1"></i><i class="orb o2"></i><i class="orb o3"></i><div class="gbg"></div><canvas id="fxc"></canvas></div>
+<div class="grain" aria-hidden="true"></div>
+<div class="cur" id="cur" aria-hidden="true"></div>
+<div class="wrap">
+<header>
+  <div class="logo"><svg class="mk" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4 44 24 24 44 4 24Z"/><path d="M24 15 33 24 24 33 15 24Z"/></svg><span>SAID<i> ◆ </i>STUDIO</span></div>
+  <div class="badge"><span class="live"><i></i>Roblox Toolkit</span><button class="theme" id="theme" aria-label="Ganti tema">◐</button></div>
+</header>
+</div>
+<nav class="tabs" aria-label="Menu utama"><div class="tabscroll" id="tabscroll"><div class="tabrow" id="tabrow">
+<button class="on" data-t="dash"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>Dashboard</button>
+<button type="button" class="mmb" id="mmb" aria-expanded="false" aria-haspopup="true" aria-controls="mp"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Tools<svg class="ch" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></button>
+<i class="ind" id="ind"></i></div></div>
+<div class="mp" id="mp" role="menu" aria-label="Daftar tools"><div class="mph"><label class="mps"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="text" id="mps" placeholder="Cari tools..." autocomplete="off" aria-label="Cari tools"></label><span class="mpc">5 tools</span><button type="button" class="mpl" data-go="dash">Lihat semua</button></div><div class="mpg"><div class="mpcat"><p class="mpt" style="color:var(--gold)">Coding</p><button type="button" class="mpi" data-go="ai" data-k="luau script claude kode"><svg viewBox="0 0 24 24"><path d="M12 4C12.6 8.6 14.4 10.4 19 11 14.4 11.6 12.6 13.4 12 18 11.4 13.4 9.6 11.6 5 11 9.6 10.4 11.4 8.6 12 4Z"/></svg>AI Assistant</button></div><div class="mpcat"><p class="mpt" style="color:var(--sg)">Gambar &amp; Tekstur</p><button type="button" class="mpi" data-go="sky" data-k="panorama 360 langit cubemap"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Skybox Converter</button></div><div class="mpcat"><p class="mpt" style="color:var(--cu)">Animasi &amp; 3D</p><button type="button" class="mpi" data-go="mesh" data-k="logo glb obj model"><svg viewBox="0 0 24 24"><path d="M12 3 20 7.5v9L12 21 4 16.5v-9z"/><path d="M12 12 20 7.5M12 12v9M12 12 4 7.5"/></svg>Logo ke Mesh 3D</button><button type="button" class="mpi" data-go="glb" data-k="sketchfab model ringan tekstur"><svg viewBox="0 0 24 24"><path d="M12 3 3 8l9 5 9-5z"/><path d="M3 12l9 5 9-5M3 16l9 5 9-5"/></svg>Sketchfab ke GLB</button></div><div class="mpcat"><p class="mpt" style="color:var(--si)">Unggah ke Roblox</p><button type="button" class="mpi" data-go="aud" data-k="lagu musik mp3 ogg wav flac"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>Audio Uploader</button></div></div><p class="mpe" id="mpe" hidden>Tidak ada tool yang cocok.</p></div></nav>
+<div class="wrap">
+<section class="hero sky">
+  <h1>Ubah panorama 360° menjadi <em>skybox</em> sempurna</h1>
+  <p>Unggah gambar equirectangular, lihat hasilnya dari dalam bola, lalu unduh enam sisi siap pakai untuk Roblox.</p>
+</section>
+<div class="pr sky"><div class="card">
+  <p class="lbl"><span>Prompt AI</span><span>Buat panorama sendiri</span></p>
+  <p class="note" style="margin:0 0 16px">Belum punya panorama? Tulis jenis langitnya, salin prompt di bawah, tempel ke AI pembuat gambar (ChatGPT, Gemini, dan sejenisnya), lalu unggah hasilnya di bagian Unggah.</p>
+  <input type="text" id="pin" placeholder="Contoh: senja oranye keunguan dengan awan tipis" maxlength="200">
+  <div id="ptpl" style="display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0"></div>
+  <div class="ptxt" id="ptxt"></div>
+  <button class="zip" id="pcopy">Salin prompt</button>
+</div></div>
+<div class="grid sky">
+  <div class="card">
+    <p class="lbl"><span>Pratinjau langsung</span><span>Berada di dalam skybox</span></p>
+    <div class="stage" id="stage"><div class="empty" id="empty">Unggah panorama untuk melihat pratinjau</div></div>
+    <p class="hint">Seret untuk melihat sekeliling · gulir untuk zoom · <button class="lnk" id="sfs" type="button" style="display:inline;padding:0">Layar penuh</button></p>
+  </div>
+  <div class="card">
+    <p class="lbl"><span>Langkah 1</span><span>Unggah</span></p>
+    <label class="drop" id="drop">
+      <svg viewBox="0 0 24 24"><path d="M12 16V4m0 0L7 9m5-5 5 5M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>
+      <b>Pilih panorama 360°</b><span>Equirectangular · rasio 2:1 · klik atau seret ke sini</span>
+      <input type="file" id="file" accept="image/*" hidden>
+    </label>
+    <div class="stat" id="stat">Belum ada gambar.</div>
+    <details class="imp" id="adjd"><summary>Atur panorama (arah, sambungan, warna)</summary><div class="row"><label>Putar <b id="ayawv">0°</b></label><input type="range" id="ayaw" min="-180" max="180" step="1" value="0"></div><div class="row"><label>Tinggi horizon <b id="ahorv">0%</b></label><input type="range" id="ahor" min="-30" max="30" step="1" value="0"></div><div class="row"><label>Rapikan sambungan kiri-kanan <b id="aseav">40%</b></label><input type="range" id="asea" min="0" max="100" step="1" value="40"></div><div class="row"><label>Rapikan atas &amp; bawah <b id="apolv">0%</b></label><input type="range" id="apol" min="0" max="100" step="1" value="0"></div><div class="row"><label>Bagian bawah</label><div class="seg" id="abot"><button data-v="a" class="on">Asli</button><button data-v="k">Kabut</button><button data-v="c">Cermin</button></div></div><div class="row"><label>Kecerahan <b id="abrv">0</b></label><input type="range" id="abr" min="-50" max="50" step="1" value="0"></div><div class="row"><label>Kontras <b id="actv">0</b></label><input type="range" id="act" min="-50" max="50" step="1" value="0"></div><div class="row"><label>Saturasi <b id="asav">0</b></label><input type="range" id="asa" min="-100" max="100" step="1" value="0"></div><p class="note">Sambungan: ujung kiri dan kanan disamakan supaya tidak ada garis di belakang. Atas &amp; bawah: menghaluskan titik kutub yang sering berpusar pada gambar AI. Kabut memudarkan bagian bawah, Cermin memantulkan langit ke bawah. Hasil diterapkan otomatis saat slider dilepas.</p><button class="lnk" id="areset" type="button">Reset pengaturan</button></details>
+    <button class="go" id="go" disabled>Proses &amp; buat cubemap</button>
+    <div class="row"><label>Mode ukuran file</label><div class="seg" id="spre"><button data-v="a">Ultra ringan</button><button data-v="b" class="on">Ringan</button><button data-v="c">HD</button></div></div>
+    <p class="note" style="margin:-4px 0 14px">Ultra ringan: 512px, JPG 75%, sphere ±2,3 ribu segitiga. Ringan: 1024px, JPG 85%, sphere ±4 ribu segitiga. HD: 2048px, JPG 100%, sphere ±9 ribu segitiga.</p>
+    <div class="row"><label>Ukuran tiap sisi <b id="sv">1024px</b></label><input type="range" id="size" min="256" max="2048" step="256" value="1024"></div>
+    <div class="row"><label>Kualitas JPG <b id="qv">85%</b></label><input type="range" id="qual" min="50" max="100" step="5" value="85"></div>
+    <p class="lbl" style="margin-top:28px"><span>Langkah 2</span><span>Unduh sisi</span></p>
+    <div class="faces" id="faces"></div>
+    <button class="zip" id="zip" disabled>Unduh semua (ZIP)</button>
+    <button class="zip" id="zipS" disabled style="margin-top:10px">Unduh Sphere 360° persis gambar (.obj + tekstur)</button>
+    <p class="note">Sphere 360°: bola langit utuh dengan gambar panorama menempel apa adanya, tanpa sambungan kubus. Di Roblox Studio: Import 3D pilih SkySphere.obj, unggah SkySphere.jpg lewat Asset Manager, isi TextureID pada MeshPart, lalu atur Anchored aktif, CanCollide dan CastShadow nonaktif, dan Size sebesar area map.</p>
+    <p class="note">Nama file mengikuti format Roblox: Rt, Lf, Up, Dn, Ft, Bk. Piksel tepi tiap sisi dibuat tepat menyambung dengan sisi di sebelahnya, jadi langit terlihat satu bola 360° mulus tanpa garis kotak di Roblox Studio.</p>
+  </div>
+</div>
+<div class="card sky" style="margin:0 0 56px"><p class="lbl"><span>Gabung 6 sisi</span><span id="gcnt">0 / 6</span></p>
+<p class="note" style="margin:0 0 18px">Sudah punya 6 gambar skybox? Gabungkan jadi satu panorama 2:1, lalu langsung bisa dilihat, diatur, dan dikonversi ulang. Nama file seperti Sky_Up.png, left, atau depan otomatis masuk ke sisi yang benar.</p>
+<div class="gcross" id="gcross"></div>
+<input type="file" id="gfiles" accept="image/*" multiple hidden>
+<button class="zip" id="gpick" type="button">Pilih 6 file sekaligus</button>
+<button class="go" id="gmerge" type="button" disabled style="margin-top:12px">Gabungkan jadi panorama</button></div>
+</div>
+<div class="wrap dtab">
+<section class="hero dhero">
+  <span class="pill"><i></i>Dashboard</span>
+  <h1><span id="dgreet">Selamat datang</span>,<br><em>di SAID STUDIO</em></h1>
+  <p>Pusat kendali alat Roblox kamu. Pantau aktivitas, cek status model terakhir, dan lompat ke alat mana pun dalam satu klik.</p>
+  <div class="clock"><b id="dclock">00:00:00</b><span id="ddate">&nbsp;</span></div>
+  <div class="chips"><span class="chip"><b id="dc1">0</b>aksi hari ini</span><span class="chip"><b id="dc2">0</b>unduhan</span><span class="chip"><b id="dc3">0</b>total aktivitas</span></div>
+</section>
+<div class="kpis">
+  <div class="card kpi" data-k="sky"><div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></div><p class="kl">Skybox dibuat</p><b class="kn">0</b><small class="kd"></small><svg class="spark" viewBox="0 0 120 36" preserveAspectRatio="none" aria-hidden="true"></svg></div>
+  <div class="card kpi" data-k="mesh"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 3 20 7.5v9L12 21 4 16.5v-9z"/><path d="M12 12 20 7.5M12 12v9M12 12 4 7.5"/></svg></div><p class="kl">Logo jadi 3D</p><b class="kn">0</b><small class="kd"></small><svg class="spark" viewBox="0 0 120 36" preserveAspectRatio="none" aria-hidden="true"></svg></div>
+  <div class="card kpi" data-k="glb"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 3 3 8l9 5 9-5z"/><path d="M3 12l9 5 9-5M3 16l9 5 9-5"/></svg></div><p class="kl">Model GLB</p><b class="kn">0</b><small class="kd"></small><svg class="spark" viewBox="0 0 120 36" preserveAspectRatio="none" aria-hidden="true"></svg></div>
+  <div class="card kpi" data-k="aud"><div class="ico"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div><p class="kl">Audio diunggah</p><b class="kn">0</b><small class="kd"></small><svg class="spark" viewBox="0 0 120 36" preserveAspectRatio="none" aria-hidden="true"></svg></div>
+  <div class="card kpi" data-k="ai"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 4C12.6 8.6 14.4 10.4 19 11 14.4 11.6 12.6 13.4 12 18 11.4 13.4 9.6 11.6 5 11 9.6 10.4 11.4 8.6 12 4Z"/></svg></div><p class="kl">Tanya AI</p><b class="kn">0</b><small class="kd"></small><svg class="spark" viewBox="0 0 120 36" preserveAspectRatio="none" aria-hidden="true"></svg></div>
+</div>
+<div class="dgrid">
+  <div class="card">
+    <p class="lbl"><span>Aktivitas 7 hari terakhir</span><span id="dtot">0 aksi</span></p>
+    <svg id="dchart" class="chart" viewBox="0 0 560 330" role="img" aria-label="Grafik aktivitas 7 hari terakhir"></svg>
+    <div class="legend"><span><i class="lg-sky"></i>Skybox</span><span><i class="lg-mesh"></i>Logo 3D</span><span><i class="lg-glb"></i>Model GLB</span><span><i class="lg-aud"></i>Audio</span><span><i class="lg-ai"></i>Asisten AI</span></div>
+  </div>
+  <div class="card">
+    <p class="lbl"><span>Model terakhir</span><span id="dltype">—</span></p>
+    <div class="gauge"><svg viewBox="0 0 140 140" aria-hidden="true"><circle class="gt" cx="70" cy="70" r="58"/><circle class="gp" id="dgp" cx="70" cy="70" r="58" transform="rotate(-90 70 70)"/></svg><div class="gc"><b id="dgn">0</b><small>segitiga</small></div></div>
+    <p class="gname" id="dgname">Belum ada model</p>
+    <p class="gpct" id="dgpct"></p>
+    <p class="mbadge gb" id="dgbadge">Proses logo atau unggah .glb untuk melihat status di sini.</p>
+    <div class="budget" id="dbudget"></div>
+  </div>
+</div>
+<p class="lbl sect"><span>Mulai cepat</span><span>Pilih alat</span></p>
+<div class="tiles">
+  <button type="button" class="card tile" data-go="sky"><div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></div><h3>Skybox</h3><p>Panorama 360° jadi enam sisi atau sphere siap Roblox.</p><span class="go2">Buka ↗</span></button>
+  <button type="button" class="card tile" data-go="mesh"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 3 20 7.5v9L12 21 4 16.5v-9z"/><path d="M12 12 20 7.5M12 12v9M12 12 4 7.5"/></svg></div><h3>Logo ke Mesh 3D</h3><p>Ubah logo jadi mesh ringan lengkap dengan material metal.</p><span class="go2">Buka ↗</span></button>
+  <button type="button" class="card tile" data-go="glb"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 3 3 8l9 5 9-5z"/><path d="M3 12l9 5 9-5M3 16l9 5 9-5"/></svg></div><h3>Sketchfab ke GLB</h3><p>Cek lisensi model lalu ringankan tekstur untuk Studio.</p><span class="go2">Buka ↗</span></button>
+  <button type="button" class="card tile" data-go="aud"><div class="ico"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div><h3>Audio Uploader</h3><p>Unggah banyak lagu sekaligus ke Roblox tanpa perubahan.</p><span class="go2">Buka ↗</span></button>
+  <button type="button" class="card tile" data-go="ai"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 4C12.6 8.6 14.4 10.4 19 11 14.4 11.6 12.6 13.4 12 18 11.4 13.4 9.6 11.6 5 11 9.6 10.4 11.4 8.6 12 4Z"/></svg></div><h3>AI Assistant</h3><p>Tanya, tulis, dan perbaiki script Luau bersama Claude.</p><span class="go2">Buka ↗</span></button>
+</div>
+<div class="dgrid2">
+  <div class="card">
+    <p class="lbl"><span>Aktivitas terbaru</span><button class="lnk" id="dclear" type="button">Reset statistik</button></p>
+    <ul class="feed" id="dfeed"></ul>
+  </div>
+  <div class="col2">
+    <div class="card"><p class="lbl"><span>Status sistem</span><span id="dsysok">—</span></p><ul class="sys" id="dsys"></ul></div>
+    <div class="card"><p class="lbl"><span>Tips Roblox</span><span id="dtipn">1/5</span></p><p class="tip" id="dtip"></p><button class="lnk" id="dtipnext" type="button">Tip berikutnya →</button></div>
+  </div>
+</div>
+</div>
+<div class="wrap mtab">
+<section class="hero"><h1>Ubah logo menjadi <em>mesh 3D</em> ringan</h1><p>Unggah logo, lihat bentuk 3D-nya berputar, atur batas segitiga agar aman untuk Roblox, lalu unduh .glb atau .obj.</p></section>
+<div class="grid">
+  <div class="col">
+    <div class="card">
+      <p class="lbl"><span>Pratinjau 3D</span><span id="mtri">0 segitiga</span></p>
+      <div class="stage" id="mstage"><div class="ovl"><button id="mwire">Wireframe</button><button id="mrot">Putar</button><button id="mrst">Reset</button></div><div class="empty" id="mempty">Unggah logo untuk melihat modelnya</div></div>
+      <p class="hint">Seret untuk memutar · gulir untuk zoom</p>
+    </div>
+    <div class="card">
+      <div class="stats"><div class="sb"><b id="mst1">0</b><small>Segitiga</small></div><div class="sb"><b id="mst2">0</b><small>Vertex</small></div><div class="sb"><b id="mst3">0 KB</b><small>Ukuran .glb</small></div></div>
+      <div class="bar"><i id="mbar"></i></div>
+      <p class="mbadge" id="mbadge">Belum ada model.</p>
+      <label class="chk"><input type="checkbox" id="mcomp" checked> Mode kompatibel Roblox (disarankan)</label>
+      <div class="btns"><button class="go" id="mglb" disabled>Unduh .glb (warna ikut)</button><div class="two"><button class="zip" id="mobj" disabled>.obj + tekstur (ZIP)</button><button class="zip" id="mcopy" disabled>Salin teks OBJ</button></div></div>
+    </div>
+  </div>
+  <div class="card">
+    <p class="lbl"><span>Langkah 1</span><span>Unggah logo</span></p>
+    <label class="drop" id="mdrop">
+      <svg viewBox="0 0 24 24"><path d="M12 16V4m0 0L7 9m5-5 5 5M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>
+      <b>Pilih gambar logo</b><span>PNG transparan hasilnya paling bagus</span>
+      <input type="file" id="mfile" accept="image/*" hidden>
+    </label>
+    <div class="thumbs"><div class="cb"><canvas id="mth1" width="160" height="110"></canvas><small>Logo asli</small></div><div><canvas id="mth2" width="160" height="110"></canvas><small>Area yang jadi 3D</small></div></div>
+    <div class="stat" id="mstat">Belum ada logo.</div>
+    <div class="row" style="margin-top:0"><label>Sensitivitas deteksi <b id="mtv">128</b></label><input type="range" id="mthr" min="10" max="245" step="5" value="128"></div>
+    <label class="chk"><input type="checkbox" id="minv"> Balik area logo (invert)</label>
+    <p class="lbl" style="margin-top:30px"><span>Langkah 2</span><span>Optimasi Roblox</span></p>
+    <div class="seg" id="mpre"><button data-v="1500">Ultra</button><button data-v="3000" class="on">Ringan</button><button data-v="8000">Seimbang</button><button data-v="20000">Detail</button></div>
+    <p class="note" style="margin:8px 0 0">Sudah teroptimasi otomatis untuk Roblox: sekitar 3 ribu segitiga, vertex digabung, tekstur 256px berukuran pangkat dua, tanpa bevel.</p>
+    <div class="row"><label>Batas segitiga maks <b id="mxv">3000</b></label><input type="range" id="mmax" min="1000" max="20000" step="500" value="3000"></div>
+    <div class="row"><label>Buang noise kecil <b id="mnv">6</b></label><input type="range" id="mnz" min="0" max="30" step="1" value="6"></div>
+    <div class="row"><label>Resolusi tekstur</label><div class="seg" id="mtex"><button data-v="256" class="on">256</button><button data-v="512">512</button><button data-v="1024">1024</button></div></div>
+    <p class="lbl" style="margin-top:30px"><span>Langkah 3</span><span>Warna &amp; bentuk</span></p>
+    <div class="seg" id="mcol"><button data-v="logo" class="on">Warna logo</button><button data-v="one">Satu warna</button><button data-v="silver">Silver</button></div>
+    <div class="sw" id="msw" hidden><input type="color" id="mclr" value="#f5b82e" aria-label="Pilih warna sendiri"><button type="button" data-c="#f5b82e" title="Emas" style="background:#f5b82e" class="on"></button><button type="button" data-c="#e5192f" title="Merah" style="background:#e5192f"></button><button type="button" data-c="#ffffff" title="Putih" style="background:#ffffff"></button><button type="button" data-c="#b8bcc6" title="Perak" style="background:#b8bcc6"></button><button type="button" data-c="#1f1f1f" title="Hitam" style="background:#1f1f1f"></button><button type="button" data-c="#2a6fdb" title="Biru" style="background:#2a6fdb"></button><button type="button" data-c="#2da44e" title="Hijau" style="background:#2da44e"></button></div>
+    <p class="note" style="margin-top:8px">Satu warna dan Silver memakai tekstur 8×8 piksel, paling ringan.</p>
+    <div class="row"><label>Material</label><div class="seg" id="mmat"><button data-v="metal" class="on">Metal (otomatis)</button><button data-v="matte">Matte</button></div></div>
+    <div class="row" id="mrrow"><label>Kekasaran metal <b id="mrv">0.25</b></label><input type="range" id="mrgh" min="0.05" max="0.8" step="0.05" value="0.25"></div>
+    <p class="note" style="margin-top:8px">Metal aktif otomatis setiap logo diubah, jadi logo memantulkan cahaya seperti logam. Makin kecil kekasaran, makin mengilap seperti cermin. Pilih Matte untuk tampilan biasa. Bevel membantu pantulan terlihat lebih hidup.</p>
+    <div class="row"><label>Lebar (studs) <b id="mwv">10</b></label><input type="range" id="mwid" min="2" max="40" step="1" value="10"></div>
+    <div class="row"><label>Ketebalan (studs) <b id="mdv">1.2</b></label><input type="range" id="mdep" min="0.2" max="10" step="0.1" value="1.2"></div>
+    <div class="row"><label>Kehalusan outline (minimum) <b id="mfv">0.8</b></label><input type="range" id="mfine" min="0.1" max="3" step="0.1" value="0.8"></div>
+    <label class="chk"><input type="checkbox" id="mbev"> Bevel (tepi miring, lebih berat)</label>
+    <details class="imp" open><summary>Cara import ke Roblox Studio</summary><ol><li>Pilih preset Ringan (atau Ultra), lalu pastikan status model berwarna aman.</li><li>Unduh .glb (tekstur warna dan map metal sudah tertanam di dalamnya).</li><li>Roblox Studio: Home, Import 3D, pilih file .glb, lalu Import.</li><li>Kalau ukurannya terlalu besar atau kecil, ubah Size pada MeshPart.</li><li>Pakai .obj? Roblox tidak membaca .mtl. Unggah logo.png dari ZIP lewat Asset Manager, lalu isi TextureID pada MeshPart. Untuk efek metal dari .obj, tambahkan SurfaceAppearance pada MeshPart, lalu isi ColorMap dengan logo.png, MetalnessMap dengan logo_metalness.png, dan RoughnessMap dengan logo_roughness.png (unggah ketiganya lewat Asset Manager).</li><li>Batas aman: di bawah 20.000 segitiga. Makin kecil, makin ringan di game.</li><li>Biar makin ringan di game: pada MeshPart nonaktifkan CanCollide, CanTouch, CanQuery dan CastShadow, set CollisionFidelity ke Box, dan aktifkan Anchored bila logo tidak bergerak.</li><li>Pantulan logam di Roblox mengikuti langit dan pencahayaan game, jadi tampilannya bisa sedikit berbeda dari pratinjau.</li></ol></details>
+  </div>
+</div>
+</div>
+<div class="wrap gtab">
+<section class="hero"><h1>Sketchfab ke <em>.glb</em> siap Roblox</h1><p>Tempel link model Sketchfab untuk cek lisensi dan izin download, lalu unggah .glb-nya untuk dilihat 360° dan diringankan untuk Roblox Studio. Tanpa API key.</p></section>
+<div class="card" style="margin-bottom:24px">
+ <div class="seg" style="max-width:340px;margin:0 auto 22px"><button id="sfT1" class="on">Input URL</button><button id="sfT2">Cari Model 3D</button></div>
+ <div id="sfP1"><p class="lbl"><span>Link model Sketchfab</span><span id="sfst">Siap</span></p>
+  <div style="display:flex;gap:10px;flex-wrap:wrap"><input type="text" id="sfurl" placeholder="https://sketchfab.com/3d-models/..." style="flex:1;min-width:220px;padding:13px;background:var(--bg);border:1px solid var(--line);color:var(--ink);border-radius:2px;font:inherit"><button class="go" id="sfgo" style="width:auto;padding:13px 22px">Periksa model</button></div></div>
+ <div id="sfP2" hidden>
+  <div style="display:flex;gap:10px;flex-wrap:wrap"><input type="text" id="sfq" placeholder="Cari model 3D (misal: mobil, jembatan, gedung, katana)..." style="flex:1;min-width:220px;padding:12px;background:var(--bg);border:1px solid var(--line);color:var(--ink);border-radius:2px;font:inherit"><select id="sfcat" style="padding:12px;background:var(--bg);border:1px solid var(--line);color:var(--ink);border-radius:2px;font:inherit"></select><select id="sfsort" style="padding:12px;background:var(--bg);border:1px solid var(--line);color:var(--ink);border-radius:2px;font:inherit"><option value="-likeCount">Paling Populer</option><option value="-publishedAt">Terbaru</option><option value="-viewCount">Paling Dilihat</option></select><button class="go" id="sfsgo" style="width:auto;padding:12px 24px">Cari</button></div>
+  <div id="sfchips" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"></div>
+  <p class="lbl" style="margin-top:26px"><span>Cari &amp; temukan model 3D siap pakai</span><span>Pilih kategori</span></p>
+  <div class="faces" id="sfcats"></div>
+  <div id="sfres"></div></div>
+ <a id="sfopen" class="kb" hidden target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:16px;text-decoration:none">Buka di Sketchfab untuk download</a>
+ <p class="note" id="sfmsg">Tanpa API key. Begitu link ditempel, model langsung dicek apakah boleh didownload, lalu unduh .glb dari Sketchfab dan unggah di bagian bawah untuk diringankan.</p>
+</div>
+<div class="grid">
+ <div class="card">
+  <p class="lbl"><span>Pratinjau 3D</span><span id="gtri">0 segitiga</span></p>
+  <div class="stage" id="gstage"><div class="empty" id="gempty">Unggah .glb untuk melihat modelnya</div></div>
+  <p class="hint">Seret untuk memutar · gulir untuk zoom</p>
+ </div>
+ <div class="card">
+  <p class="lbl"><span>Langkah 1</span><span>Unggah</span></p>
+  <label class="drop" id="gdrop"><svg viewBox="0 0 24 24"><path d="M12 16V4m0 0L7 9m5-5 5 5M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg><b>Atau unggah .glb sendiri</b><span>Hasil konversi Sketchfab juga tampil di sini</span><input type="file" id="gfile" accept=".glb" hidden></label>
+  <div class="stat" id="gstat">Belum ada model.</div>
+  <div class="stats"><div class="sb"><b id="gst1">0</b><small>Segitiga</small></div><div class="sb"><b id="gst2">0</b><small>Vertex</small></div><div class="sb"><b id="gst3">0</b><small>Tekstur</small></div></div>
+  <div class="bar"><i id="gbar"></i></div>
+  <p class="mbadge" id="gbadge">Belum ada model.</p>
+  <p class="lbl" style="margin-top:28px"><span>Langkah 2</span><span>Ringankan tekstur</span></p>
+  <div class="seg" id="gtex"><button data-v="256">256</button><button data-v="512">512</button><button data-v="1024" class="on">1024</button><button data-v="0">Asli</button></div>
+  <button class="go" id="gdl" disabled style="margin-top:20px">Unduh .glb ringan</button>
+  <p class="note" id="gmsg">Jumlah segitiga tidak diubah, hanya tekstur yang dikecilkan. Untuk mengurangi segitiga, pakai Blender (modifier Decimate).</p>
+ </div>
+</div></div>
+<div class="wrap utab">
+<section class="hero"><h1>Unggah <em>audio</em> ke Roblox</h1><p>Unggah banyak lagu sekaligus ke Roblox <b style="color:var(--ink)">tanpa perubahan</b>. Atur nama tiap lagu, lalu salin Asset ID-nya setelah selesai.</p></section>
+<div class="aban" id="aubn" hidden><b>Server unggah belum diatur.</b> Halaman ini tidak bisa memanggil Roblox langsung dari browser (diblokir CORS) dan API key tidak boleh ditaruh di halaman. Deploy <code>audio-upload-worker.js</code> ke Cloudflare Workers, lalu isi URL-nya pada <code>AUDIO_ENDPOINT</code> di script tab Audio. Sebelum itu, kamu tetap bisa menambah file dan mengecek ukuran serta durasinya.</div>
+<div class="card" style="margin-bottom:24px">
+ <details class="imp"><summary>Tips mengunggah (3)</summary><ol><li>Pakai akun alt untuk aset yang belum pasti lolos moderasi Roblox.</li><li>Audio dimoderasi Roblox. Statusnya bisa pending beberapa menit sebelum Asset ID bisa dipakai di game.</li><li>File diunggah apa adanya, tanpa mengubah speed atau pitch. Batas Roblox: sekitar 7 menit per lagu dan 20 MB per file. Kalau WAV atau FLAC ditolak, ubah dulu ke MP3 atau OGG.</li></ol></details>
+</div>
+<div class="grid">
+ <div class="card">
+  <p class="lbl"><span>Langkah 1</span><span>Pilih lagu</span></p>
+  <label class="drop" id="adrop"><svg viewBox="0 0 24 24"><path d="M12 16V4m0 0L7 9m5-5 5 5M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg><b>Tarik lagu ke sini atau pilih file</b><span>MP3, OGG, WAV, atau FLAC · maksimal 20 MB per file · maksimal 8 per batch</span><input type="file" id="afile" accept=".mp3,.ogg,.wav,.flac,audio/mpeg,audio/ogg,audio/wav,audio/x-wav,audio/flac" multiple hidden></label>
+  <p class="arej" id="arej" hidden></p>
+  <p class="lbl" style="margin-top:22px"><span>Antrean</span><span id="acnt">0 / 8</span></p>
+  <ul class="afl" id="alist"><li class="afz">Belum ada lagu.</li></ul>
+ </div>
+ <div class="card">
+  <p class="lbl"><span>Langkah 2</span><span>Unggah</span></p>
+  <div class="stats"><div class="sb"><b id="ast1">0</b><small>Antrean</small></div><div class="sb"><b id="ast2">0</b><small>Berhasil</small></div><div class="sb"><b id="ast3">0</b><small>Gagal</small></div></div>
+  <div class="bar"><i id="abar"></i></div>
+  <p class="mbadge" id="astat">Tambahkan lagu untuk memulai.</p>
+  <button class="go" id="ago" disabled style="margin-top:20px">Unggah semua ke Roblox</button>
+  <button class="zip" id="acopy" disabled>Salin semua Asset ID</button>
+  <button class="zip" id="aclr" disabled style="margin-top:10px">Kosongkan antrean</button>
+  <p class="note">Lagu diunggah satu per satu supaya stabil. Yang gagal bisa dicoba lagi dengan menekan Unggah lagi, lagu yang sudah berhasil tidak diunggah ulang.</p>
+ </div>
+</div>
+</div>
+<div class="wrap atab">
+<section class="hero"><h1>Asisten AI untuk <em>scripting Roblox</em></h1><p>Tulis, perbaiki, dan jelaskan script Luau. Tanpa API key. Memakai akun Claude kamu sendiri, dan percakapan tidak disimpan di server SAID STUDIO.</p></section>
+<div class="card" style="margin-bottom:56px">
+  <div class="amodel"><span>ANTHROPIC</span><b>Claude Opus 5.5</b><button class="lnk" id="aclr">Hapus chat</button></div>
+  <div class="awarn" id="awarn" hidden></div>
+  <div class="chat" id="chat"><div class="aempty">Tanyakan apa saja seputar scripting Roblox.</div></div>
+  <div class="ain"><textarea id="ain" placeholder="Tanya soal scripting (Enter kirim, Shift+Enter baris baru)"></textarea><button class="go" id="asend">Kirim</button></div>
+  <p class="note">Tanpa API key. Jawaban memakai kuota akun Claude kamu sendiri, dan hanya jalan saat halaman dibuka lewat link artifact di claude.ai.</p>
+</div>
+</div>
+<footer><div class="wrap"><div class="fl"></div><p>© 2026 SAID STUDIO<span>◆</span>Crafted by Said</p></div></footer>
+<script>addEventListener("DOMContentLoaded",function(){
+(function(){
+var $=function(i){return document.getElementById(i)};
+function T(k,m){try{window.SS&&window.SS.log(k,m)}catch(e){}}
+function TL(t,n,nm){try{window.SS&&window.SS.last(t,n,nm)}catch(e){}}
+var FACES=[
+ {k:"Rt",n:"Kanan",f:[1,0,0],r:[0,0,1],u:[0,1,0]},
+ {k:"Lf",n:"Kiri",f:[-1,0,0],r:[0,0,-1],u:[0,1,0]},
+ {k:"Up",n:"Atas",f:[0,1,0],r:[1,0,0],u:[0,0,1]},
+ {k:"Dn",n:"Bawah",f:[0,-1,0],r:[1,0,0],u:[0,0,-1]},
+ {k:"Ft",n:"Depan",f:[0,0,-1],r:[1,0,0],u:[0,1,0]},
+ {k:"Bk",n:"Belakang",f:[0,0,1],r:[-1,0,0],u:[0,1,0]}];
+var img=null,src=null,out={};
+$("theme").onclick=function(){var d=document.documentElement,dark=d.dataset.theme!=="light";d.dataset.theme=dark?"light":"dark";try{localStorage.setItem("said_theme",d.dataset.theme)}catch(e){}};
+var fb=$("faces");
+FACES.forEach(function(f){var b=document.createElement("button");b.className="face";b.disabled=true;b.id="f"+f.k;b.innerHTML="<b>"+f.n+"</b><small>Skybox"+f.k+".jpg</small>";b.onclick=function(){dl(f.k)};fb.appendChild(b)});
+$("size").oninput=function(){$("sv").textContent=this.value+"px"};
+$("qual").oninput=function(){$("qv").textContent=this.value+"%"};
+var PS={a:{n:512,q:75,s:[48,24],t:1024},b:{n:1024,q:85,s:[64,32],t:1024},c:{n:2048,q:100,s:[96,48],t:2048}},ps=PS.b,pbs=document.querySelectorAll("#spre button");
+Array.prototype.forEach.call(pbs,function(bt){bt.onclick=function(){ps=PS[bt.dataset.v];Array.prototype.forEach.call(pbs,function(x){x.classList.toggle("on",x===bt)});$("size").value=ps.n;$("sv").textContent=ps.n+"px";$("qual").value=ps.q;$("qv").textContent=ps.q+"%";if(img&&!$("go").disabled)$("go").click()}});
+var st=$("stage"),ren,scene,cam,mesh,lon=0,lat=0,fov=75,drag=null;
+try{
+ ren=new THREE.WebGLRenderer({antialias:!matchMedia("(max-width:860px)").matches});ren.setPixelRatio(Math.min(devicePixelRatio,matchMedia("(max-width:860px)").matches?1.5:2));st.appendChild(ren.domElement);
+ scene=new THREE.Scene();cam=new THREE.PerspectiveCamera(fov,16/10,.1,100);
+}catch(e){ren=null}
+function size(){if(!ren)return;var w=st.clientWidth,h=st.clientHeight;if(!w)return;ren.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix()}
+addEventListener("resize",size);
+function draw(){if(!ren)return;var p=lat*Math.PI/180,t=lon*Math.PI/180;cam.fov=fov;cam.updateProjectionMatrix();cam.lookAt(Math.cos(p)*Math.sin(t),Math.sin(p),-Math.cos(p)*Math.cos(t));ren.render(scene,cam)}
+function loop(){requestAnimationFrame(loop);if(document.hidden)return;var bc=document.body.classList;if(bc.contains("dash")||bc.contains("mesh")||bc.contains("glb")||bc.contains("aud")||bc.contains("ai"))return;if(mesh&&!drag)lon+=.03;draw()}
+st.addEventListener("pointerdown",function(e){drag={x:e.clientX,y:e.clientY};st.setPointerCapture(e.pointerId)});
+st.addEventListener("pointermove",function(e){if(!drag)return;var k=fov/st.clientHeight;lon-=(e.clientX-drag.x)*k;lat=Math.max(-85,Math.min(85,lat+(e.clientY-drag.y)*k));drag={x:e.clientX,y:e.clientY}});
+st.addEventListener("pointerup",function(){drag=null});
+st.addEventListener("wheel",function(e){e.preventDefault();fov=Math.max(30,Math.min(100,fov+e.deltaY*.05))},{passive:false});
+size();if(ren)loop();
+function setPreview(im){
+ if(!ren)return;
+ var tex=new THREE.Texture(im);tex.needsUpdate=true;tex.minFilter=THREE.LinearFilter;
+ var g=new THREE.SphereGeometry(50,64,40);g.scale(-1,1,1);
+ if(mesh){scene.remove(mesh);mesh.material.map.dispose()}
+ mesh=new THREE.Mesh(g,new THREE.MeshBasicMaterial({map:tex}));mesh.rotation.y=Math.PI/2;scene.add(mesh);
+}
+function load(file){
+ if(!file||!/^image\//.test(file.type))return;
+ var u=URL.createObjectURL(file),im=new Image();
+ im.onload=function(){
+  img=im;orig=im;resetAdj();img=makeAdj(true)||im;out={};setPreview(img);$("empty").style.display="none";
+  var r=im.width/im.height,ok=Math.abs(r-2)<.05;
+  $("stat").textContent=file.name+" · "+im.width+"×"+im.height+(ok?" · rasio 2:1 ✓":" · peringatan: rasio bukan 2:1, hasil bisa terdistorsi");
+  $("go").disabled=false;$("zip").disabled=true;$("zipS").disabled=true;FACES.forEach(function(f){$("f"+f.k).disabled=true});$("go").click();
+ };
+ im.onerror=function(){$("stat").textContent="Gagal membaca gambar."};
+ im.src=u;
+}
+$("file").onchange=function(){load(this.files[0])};
+var dr=$("drop");
+["dragenter","dragover"].forEach(function(e){dr.addEventListener(e,function(ev){ev.preventDefault();dr.classList.add("on")})});
+["dragleave","drop"].forEach(function(e){dr.addEventListener(e,function(ev){ev.preventDefault();dr.classList.remove("on")})});
+dr.addEventListener("drop",function(e){load(e.dataTransfer.files[0])});
+var P1="A full 360-degree sky dome of ",P2=", painted as one continuous equirectangular strip at a 2:1 width-to-height ratio. The flat horizon line runs across the exact vertical middle. Treat the far left and far right edges as the SAME joining point of a wraparound sky: keep the sky and clouds right at both side edges plain, low-detail and evenly lit, with no sun, star, bright highlight or cloud cluster placed directly at either edge, so the loop reads as seamless when wrapped. Everywhere else, large soft shapes only, smooth gradients, no fine texture, no dust or grain, no lens flare, no vignette, no frame border, no caption, no logo or watermark.";
+function rp(){var v=$("pin").value.trim(),t=$("ptxt");t.textContent=P1;var m=document.createElement("mark");m.textContent=v||"[Ganti Ini]";t.appendChild(m);t.appendChild(document.createTextNode(P2))}
+$("pin").oninput=rp;rp();
+$("pcopy").onclick=function(){
+ var b=this,txt=$("ptxt").textContent;
+ function ok(){b.textContent="Tersalin ✓";setTimeout(function(){b.textContent="Salin prompt"},1800)}
+ function fb(){var a=document.createElement("textarea");a.value=txt;document.body.appendChild(a);a.select();try{document.execCommand("copy");ok()}catch(e){b.textContent="Salin manual"}a.remove()}
+ if(navigator.clipboard){navigator.clipboard.writeText(txt).then(ok,fb)}else fb();
+};
+var orig=null,adj={yaw:0,hor:0,seam:40,pole:0,bot:"a",br:0,ct:0,sat:0},SLD=[["ayaw","yaw","°"],["ahor","hor","%"],["asea","seam","%"],["apol","pole","%"],["abr","br",""],["act","ct",""],["asa","sat",""]],atm,ctm;
+function noop(){return !adj.yaw&&!adj.hor&&!adj.seam&&!adj.pole&&adj.bot==="a"&&!adj.br&&!adj.ct&&!adj.sat}
+function syncAdj(){SLD.forEach(function(r){$(r[0]).value=adj[r[1]];$(r[0]+"v").textContent=adj[r[1]]+r[2]});Array.prototype.forEach.call($("abot").children,function(b){b.classList.toggle("on",b.dataset.v===adj.bot)})}
+function resetAdj(sm){adj={yaw:0,hor:0,seam:sm===undefined?40:sm,pole:0,bot:"a",br:0,ct:0,sat:0};syncAdj()}
+function makeAdj(prev){
+ if(!orig)return null;if(noop())return orig;
+ var cap=prev?1024:4096,sc=Math.min(1,cap/orig.width),w=Math.max(8,Math.round(orig.width*sc)),h=Math.max(4,Math.round(orig.height*sc));
+ var c=document.createElement("canvas");c.width=w;c.height=h;var cx=c.getContext("2d");cx.drawImage(orig,0,0,w,h);
+ var im=cx.getImageData(0,0,w,h),d=im.data,i,j,k,p,q;
+ var sx=Math.round(adj.yaw/360*w),dy=Math.round(adj.hor/100*h);
+ if(sx||dy){var t=new Uint8ClampedArray(d.length);for(j=0;j<h;j++){var yy=Math.max(0,Math.min(h-1,j-dy));for(i=0;i<w;i++){var xx=((i-sx)%w+w)%w;p=(j*w+i)*4;q=(yy*w+xx)*4;t[p]=d[q];t[p+1]=d[q+1];t[p+2]=d[q+2];t[p+3]=255}}d.set(t)}
+ var bw=Math.round(adj.seam/100*w*.25);
+ if(bw>1){for(j=0;j<h;j++){var L=j*w*4,R=(j*w+w-1)*4;for(k=0;k<3;k++){var e=(d[L+k]+d[R+k])/2,dl=e-d[L+k],dr=e-d[R+k];for(i=0;i<bw;i++){var f=1-i/bw;f*=f;d[L+i*4+k]+=dl*f;d[R-i*4+k]+=dr*f}}}}
+ var ph=Math.round(adj.pole/100*h*.25);
+ if(ph>1){for(var sd=0;sd<2;sd++)for(j=0;j<ph;j++){var yr=sd?h-1-j:j,wg=(1-j/ph)*.95,m=[0,0,0];for(i=0;i<w;i++){p=(yr*w+i)*4;m[0]+=d[p];m[1]+=d[p+1];m[2]+=d[p+2]}m[0]/=w;m[1]/=w;m[2]/=w;for(i=0;i<w;i++){p=(yr*w+i)*4;for(k=0;k<3;k++)d[p+k]=d[p+k]*(1-wg)+m[k]*wg}}}
+ var hh=Math.floor(h/2);
+ if(adj.bot==="c"){for(j=hh;j<h;j++){var mj=h-1-j;for(i=0;i<w;i++){p=(j*w+i)*4;q=(mj*w+i)*4;d[p]=d[q]*.92;d[p+1]=d[q+1]*.92;d[p+2]=d[q+2]*.92}}}
+ else if(adj.bot==="k"){var fm=[0,0,0];for(i=0;i<w;i++){p=(hh*w+i)*4;fm[0]+=d[p];fm[1]+=d[p+1];fm[2]+=d[p+2]}for(k=0;k<3;k++)fm[k]/=w;for(j=hh;j<h;j++){var w2=Math.pow((j-hh)/Math.max(1,h-1-hh),1.4)*.9;for(i=0;i<w;i++){p=(j*w+i)*4;for(k=0;k<3;k++)d[p+k]=d[p+k]*(1-w2)+fm[k]*w2}}}
+ if(adj.br||adj.ct||adj.sat){var br=adj.br*2.55,cc=adj.ct*2.55,cf=(259*(cc+255))/(255*(259-cc)),sa=1+adj.sat/100;for(p=0;p<d.length;p+=4){var r=d[p],g=d[p+1],b=d[p+2],gr=.299*r+.587*g+.114*b;r=gr+(r-gr)*sa;g=gr+(g-gr)*sa;b=gr+(b-gr)*sa;d[p]=cf*(r+br-128)+128;d[p+1]=cf*(g+br-128)+128;d[p+2]=cf*(b+br-128)+128}}
+ cx.putImageData(im,0,0);return c}
+function refresh(){clearTimeout(atm);atm=setTimeout(function(){if(!orig)return;img=makeAdj(true);setPreview(img)},90)}
+function commit(){clearTimeout(ctm);ctm=setTimeout(function(){if(orig&&!$("go").disabled)$("go").click()},500)}
+SLD.forEach(function(r){var el=$(r[0]);el.oninput=function(){adj[r[1]]=+el.value;$(r[0]+"v").textContent=el.value+r[2];refresh()};el.onchange=commit});
+Array.prototype.forEach.call($("abot").children,function(b){b.onclick=function(){adj.bot=b.dataset.v;syncAdj();refresh();commit()}});
+$("areset").onclick=function(){resetAdj();refresh();commit()};
+function useSrc(cv,label){orig=cv;resetAdj(0);img=cv;setPreview(cv);$("empty").style.display="none";$("stat").textContent=label+" · "+cv.width+"×"+cv.height+" · rasio 2:1 ✓";$("go").disabled=false;$("zip").disabled=true;$("zipS").disabled=true;FACES.forEach(function(f){$("f"+f.k).disabled=true});$("go").click();window.scrollTo({top:0,behavior:"smooth"})}
+(function(){var e=st,fn=e.requestFullscreen||e.webkitRequestFullscreen;if(!fn){$("sfs").hidden=true;return}$("sfs").onclick=function(){fn.call(e)};["fullscreenchange","webkitfullscreenchange"].forEach(function(n){document.addEventListener(n,function(){setTimeout(size,60)})})})();
+var GP={Up:[2,1],Lf:[1,2],Ft:[2,2],Rt:[3,2],Bk:[4,2],Dn:[2,3]},GNM={},gf={},GAL={Up:["up","top","atas"],Dn:["dn","down","bottom","bawah"],Lf:["lf","left","kiri"],Rt:["rt","right","kanan"],Ft:["ft","front","depan"],Bk:["bk","back","belakang"]};
+FACES.forEach(function(f){GNM[f.k]=f.n});
+Object.keys(GP).forEach(function(k){var l=document.createElement("label");l.className="gslot";l.dataset.k=k;l.style.gridColumn=GP[k][0];l.style.gridRow=GP[k][1];l.innerHTML="<b>"+k+"</b><span>"+GNM[k]+"</span><input type=\"file\" accept=\"image/*\" hidden>";l.querySelector("input").onchange=function(){if(this.files[0])setFace(k,this.files[0])};$("gcross").appendChild(l)});
+function gcount(){var n=Object.keys(gf).length;$("gcnt").textContent=n+" / 6";$("gmerge").disabled=n<6}
+function setFace(k,file){var u=URL.createObjectURL(file),im=new Image();im.onload=function(){gf[k]=im;var sl=$("gcross").querySelector("[data-k=\""+k+"\"]"),o=sl.querySelector("img");if(o)o.remove();im.alt=k;sl.appendChild(im);gcount()};im.src=u}
+function faceOf(name){var n=name.toLowerCase().replace(/\.[^.]+$/,""),tk=n.split(/[^a-z]+/);for(var k in GAL)for(var i=0;i<GAL[k].length;i++){var a=GAL[k][i];if(tk.indexOf(a)>-1||n.slice(-a.length)===a)return k}return null}
+$("gpick").onclick=function(){$("gfiles").click()};
+$("gfiles").onchange=function(){var fs=Array.prototype.slice.call(this.files),left=[];fs.forEach(function(f){var k=faceOf(f.name);if(k&&!gf[k]&&!f._u){f._u=1;setFace(k,f)}else left.push(f)});var free=Object.keys(GP).filter(function(k){return !gf[k]&&!fs.some(function(f){return f._u&&faceOf(f.name)===k})});left.forEach(function(f){var k=free.shift();if(k)setFace(k,f)});this.value=""};
+$("gmerge").onclick=function(){
+ var b=this;b.disabled=true;b.textContent="Menggabungkan…";
+ setTimeout(function(){
+  var N=Math.min(2048,gf.Ft.naturalWidth),W=Math.min(4096,N*4),H=W/2,fd={};
+  FACES.forEach(function(f){var c=document.createElement("canvas");c.width=c.height=N;var cx=c.getContext("2d");cx.drawImage(gf[f.k],0,0,N,N);fd[f.k]=cx.getImageData(0,0,N,N).data});
+  var oc=document.createElement("canvas");oc.width=W;oc.height=H;var ox=oc.getContext("2d"),oi=ox.createImageData(W,H),o=oi.data;
+  for(var y=0;y<H;y++){var lat=(.5-(y+.5)/H)*Math.PI,cl=Math.cos(lat),dy=Math.sin(lat);
+   for(var x=0;x<W;x++){var lon=((x+.5)/W-.5)*2*Math.PI,dx=Math.sin(lon)*cl,dz=-Math.cos(lon)*cl,ax=Math.abs(dx),ay=Math.abs(dy),az=Math.abs(dz),F;
+    if(ax>=ay&&ax>=az)F=dx>0?FACES[0]:FACES[1];else if(ay>=az)F=dy>0?FACES[2]:FACES[3];else F=dz<0?FACES[4]:FACES[5];
+    var df=dx*F.f[0]+dy*F.f[1]+dz*F.f[2],a=(dx*F.r[0]+dy*F.r[1]+dz*F.r[2])/df,bb=(dx*F.u[0]+dy*F.u[1]+dz*F.u[2])/df,
+    xi=Math.round(Math.max(0,Math.min(N-1,(a+1)/2*(N-1)))),yi=Math.round(Math.max(0,Math.min(N-1,(1-bb)/2*(N-1)))),q=(yi*N+xi)*4,p=(y*W+x)*4,D=fd[F.k];
+    o[p]=D[q];o[p+1]=D[q+1];o[p+2]=D[q+2];o[p+3]=255}}
+  ox.putImageData(oi,0,0);b.textContent="Gabungkan jadi panorama";b.disabled=false;useSrc(oc,"Panorama dari 6 sisi");T("sky","Gabung 6 sisi jadi panorama")
+ },30)};
+[["Senja laut","Calm ocean at golden sunset with warm orange and pink clouds"],["Langit biru","Bright blue daytime sky with soft white cumulus clouds"],["Aurora malam","Starry night sky with a green and purple aurora"],["Galaksi ungu","Deep purple galaxy sky with glowing nebula clouds and stars"],["Pastel mimpi","Dreamy pastel sky in pink and lavender with fluffy clouds"],["Badai dramatis","Dark dramatic storm clouds with a thin glowing sunset line at the horizon"],["Kosongkan",""]].forEach(function(t){var b=document.createElement("button");b.type="button";b.className="kb";b.textContent=t[0];b.onclick=function(){$("pin").value=t[1];rp()};$("ptpl").appendChild(b)});
+var tb=document.querySelectorAll(".tabs [data-t]");
+function moveInd(){try{var a=document.querySelector(".tabs button.on"),i=$("ind"),r=$("tabrow"),s=$("tabscroll");if(!a||!i)return;i.style.left=a.offsetLeft+"px";i.style.width=a.offsetWidth+"px";if(s&&r&&s.scrollWidth>s.clientWidth)s.scrollTo({left:a.offsetLeft+r.offsetLeft-s.clientWidth/2+a.offsetWidth/2,behavior:"smooth"})}catch(e){}}
+function tabTo(t){tb.forEach(function(x){x.classList.toggle("on",x.dataset.t===t)});var B=document.body.classList;B.toggle("dash",t==="dash");B.toggle("mesh",t==="mesh");B.toggle("ai",t==="ai");B.toggle("glb",t==="glb");B.toggle("aud",t==="aud");(function(){var mb=document.getElementById("mmb"),mp=document.getElementById("mp");if(mb){mb.classList.toggle("on",t!=="dash");mb.setAttribute("aria-expanded","false")}if(mp)mp.classList.remove("on")})();if(t==="sky")setTimeout(size,30);if(t==="glb")setTimeout(gsize,30);if(t==="mesh")setTimeout(msize,30);if(t==="dash"&&window.SS)window.SS.render(true);moveInd();window.scrollTo({top:0,behavior:"smooth"})}
+window.saidTab=tabTo;
+tb.forEach(function(b){b.onclick=function(){tabTo(b.dataset.t)}});
+addEventListener("resize",moveInd);addEventListener("load",moveInd);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(moveInd);moveInd();
+var mimg=null,hasA=false,mdata=null,mr,ms,mc,mm,mrot={x:0,y:0},mz=13,mdrag=null,auto=false,wire=false,opt={tr:256,col:"logo",mat:"metal"},mst=$("mstage");
+try{mr=new THREE.WebGLRenderer({antialias:!matchMedia("(max-width:860px)").matches,alpha:true});mr.setPixelRatio(Math.min(devicePixelRatio,matchMedia("(max-width:860px)").matches?1.5:2));mst.appendChild(mr.domElement);ms=new THREE.Scene();mc=new THREE.PerspectiveCamera(40,1.6,.1,1000);mr.outputEncoding=THREE.sRGBEncoding;ms.add(new THREE.AmbientLight(0xffffff,.7));var mdl=new THREE.DirectionalLight(0xffffff,.35);mdl.position.set(2,3,5);ms.add(mdl);
+(function(){try{var ec=document.createElement("canvas");ec.width=512;ec.height=256;var ex=ec.getContext("2d"),eg=ex.createLinearGradient(0,0,0,256);eg.addColorStop(0,"#ffffff");eg.addColorStop(.35,"#e8ebf0");eg.addColorStop(.47,"#c9cdd5");eg.addColorStop(.53,"#5b616c");eg.addColorStop(.6,"#2a2e36");eg.addColorStop(.75,"#9aa0ab");eg.addColorStop(1,"#e4e7ec");ex.fillStyle=eg;ex.fillRect(0,0,512,256);ex.fillStyle="#ffffff";ex.fillRect(40,40,110,46);ex.fillRect(270,30,140,52);ex.fillRect(440,60,50,40);ex.fillStyle="#ffe9c4";ex.fillRect(190,150,90,34);var et=new THREE.CanvasTexture(ec);et.mapping=THREE.EquirectangularReflectionMapping;et.encoding=THREE.sRGBEncoding;ms.environment=new THREE.PMREMGenerator(mr).fromEquirectangular(et).texture}catch(e2){}})()}catch(e){mr=null}
+function msize(){if(!mr)return;var w=mst.clientWidth,h=mst.clientHeight;if(!w)return;mr.setSize(w,h,false);mc.aspect=w/h;mc.updateProjectionMatrix()}
+addEventListener("resize",msize);
+(function ml(){requestAnimationFrame(ml);if(document.hidden||!mr||!document.body.classList.contains("mesh"))return;if(mm){if(auto&&!mdrag)mrot.y+=.004;mm.rotation.set(mrot.x,mrot.y,0)}mc.position.set(0,0,mz);mc.lookAt(0,0,0);mr.render(ms,mc)})();
+mst.addEventListener("pointerdown",function(e){if(e.target.tagName==="BUTTON")return;mdrag={x:e.clientX,y:e.clientY};mst.setPointerCapture(e.pointerId)});
+mst.addEventListener("pointermove",function(e){if(!mdrag)return;mrot.y+=(e.clientX-mdrag.x)*.01;mrot.x=Math.max(-1.4,Math.min(1.4,mrot.x+(e.clientY-mdrag.y)*.01));mdrag={x:e.clientX,y:e.clientY}});
+mst.addEventListener("pointerup",function(){mdrag=null});
+mst.addEventListener("wheel",function(e){e.preventDefault();mz=Math.max(2,Math.min(150,mz*(1+e.deltaY*.001)))},{passive:false});
+$("mwire").onclick=function(){wire=!wire;if(mm)mm.material.wireframe=wire};
+$("mrot").onclick=function(){auto=!auto;this.style.opacity=auto?1:.5};
+$("mrst").onclick=function(){mrot={x:0,y:0};mz=Math.max(3,+$("mwid").value*1.3);auto=false;$("mrot").style.opacity=.5};$("mrot").style.opacity=.5;
+function seg(id,cb){var bs=$(id).querySelectorAll("button");bs.forEach(function(b){b.onclick=function(){bs.forEach(function(x){x.classList.toggle("on",x===b)});cb(b.dataset.v)}})}
+function area(r){var s=0;for(var i=0,n=r.length;i<n;i++){var a=r[i],b=r[(i+1)%n];s+=a[0]*b[1]-b[0]*a[1]}return Math.abs(s)/2}
+function dp(p,e){var n=p.length,keep=new Uint8Array(n),st=[[0,n-1]];keep[0]=keep[n-1]=1;
+ while(st.length){var s=st.pop(),a=p[s[0]],b=p[s[1]],md=0,mi=-1,dx=b[0]-a[0],dy=b[1]-a[1],L=Math.hypot(dx,dy)||1e-9;
+  for(var i=s[0]+1;i<s[1];i++){var dd=Math.abs((p[i][0]-a[0])*dy-(p[i][1]-a[1])*dx)/L;if(dd>md){md=dd;mi=i}}
+  if(md>e&&mi>0){keep[mi]=1;st.push([s[0],mi],[mi,s[1]])}}
+ return p.filter(function(_,i){return keep[i]})}
+function simp(r,e){if(r.length<6)return r;var far=0,fd=0,i;
+ for(i=1;i<r.length;i++){var dd=Math.hypot(r[i][0]-r[0][0],r[i][1]-r[0][1]);if(dd>fd){fd=dd;far=i}}
+ var A=dp(r.slice(0,far+1),e),B=dp(r.slice(far).concat([r[0]]),e);return A.concat(B.slice(1,-1))}
+function build(){
+ if(!mimg)return;
+ if(!window.d3){$("mbadge").textContent="Library belum termuat, muat ulang halaman.";return}
+ var mx=+$("mmax").value,R=360,asp=mimg.width/mimg.height,w=asp>=1?R:Math.max(8,Math.round(R*asp)),h=asp>=1?Math.max(8,Math.round(R/asp)):R,N=w*h;
+ var c=document.createElement("canvas");c.width=w;c.height=h;var x=c.getContext("2d");x.drawImage(mimg,0,0,w,h);var d=x.getImageData(0,0,w,h).data;
+ var thr=+$("mthr").value,inv=$("minv").checked,nz=+$("mnz").value,val=new Float32Array(N),tmp=new Float32Array(N),i,j;
+ for(i=0;i<N;i++){var a=d[i*4+3],l=.299*d[i*4]+.587*d[i*4+1]+.114*d[i*4+2];val[i]=hasA?(inv?255-a:a):(inv?l:255-l)}
+ for(j=0;j<h;j++)for(i=0;i<w;i++){var s=0,cn=0;for(var dy=-1;dy<=1;dy++)for(var dx=-1;dx<=1;dx++){var xx=i+dx,yy=j+dy;if(xx>=0&&yy>=0&&xx<w&&yy<h){s+=val[yy*w+xx];cn++}}tmp[j*w+i]=s/cn}
+ var polys=d3.contours().size([w,h]).thresholds([thr])(Array.from(tmp))[0].coordinates,minA=Math.max(2,nz*nz*.5),raw=[];
+ polys.forEach(function(pg){var rs=pg.map(function(r){return r.slice(0,-1)});if(rs[0].length<3||area(rs[0])<minA)return;raw.push(rs.filter(function(r,k){return k===0||(r.length>=3&&area(r)>=minA)}))});
+ if(!raw.length){$("mbadge").textContent="Tidak ada area terdeteksi. Ubah sensitivitas atau centang balik.";$("mglb").disabled=true;$("mobj").disabled=true;return}
+ var eps=+$("mfine").value,bev=$("mbev").checked,sp,cnt;
+ do{sp=raw.map(function(rs){return rs.map(function(r){return simp(r,eps)}).filter(function(r,k){return k===0||r.length>=3})}).filter(function(rs){return rs[0].length>=3});
+  cnt=0;sp.forEach(function(rs){rs.forEach(function(r){cnt+=r.length})});eps*=1.3}while(cnt*(bev?6:4)>mx&&eps<40);
+ var S=+$("mwid").value/Math.max(w,h),D=+$("mdep").value,V=function(p){return new THREE.Vector2((p[0]-w/2)*S,(h/2-p[1])*S)};
+ var shapes=sp.map(function(rs){var sh=new THREE.Shape(rs[0].map(V));sh.holes=rs.slice(1).map(function(r){return new THREE.Path(r.map(V))});return sh});
+ var g0=new THREE.ExtrudeGeometry(shapes,{depth:D,bevelEnabled:bev,bevelThickness:D*.1,bevelSize:D*.1,bevelOffset:0,bevelSegments:1,curveSegments:1,steps:1});g0.translate(0,0,-D/2);
+ var rs0=0,gs0=0,bs0=0,n0=0;for(i=0;i<N;i++)if(tmp[i]>thr){rs0+=d[i*4];gs0+=d[i*4+1];bs0+=d[i*4+2];n0++}
+ var avg=n0?[Math.round(rs0/n0),Math.round(gs0/n0),Math.round(bs0/n0)]:[255,255,255],sdc=avg.map(function(q){return Math.round(q*.88)});
+ var t1=$("mth1"),t2=$("mth2");t1.height=Math.round(160/asp);t1.getContext("2d").drawImage(mimg,0,0,160,t1.height);
+ t2.width=160;t2.height=t1.height;var cx=t2.getContext("2d"),z=160/w;cx.fillStyle="#1a1713";cx.fillRect(0,0,160,t2.height);cx.fillStyle="#fff";
+ sp.forEach(function(rs){cx.beginPath();rs.forEach(function(r){r.forEach(function(p,q){q?cx.lineTo(p[0]*z,p[1]*z):cx.moveTo(p[0]*z,p[1]*z)});cx.closePath()});cx.fill("evenodd")});
+ var t=document.createElement("canvas"),tx2=t.getContext("2d"),vf=1,vs=.5;
+ if(opt.col==="one"||opt.col==="silver"){t.width=t.height=8;tx2.fillStyle=opt.col==="silver"?"#d4d7dd":$("mclr").value;tx2.fillRect(0,0,8,8)}
+ else{var sc=Math.min(1,opt.tr/Math.max(mimg.width,mimg.height)),tw=Math.max(1,Math.round(mimg.width*sc)),lh=Math.max(1,Math.round(mimg.height*sc)),sh2=Math.max(6,Math.round(lh*.12));
+  t.width=tw;t.height=lh+sh2;tx2.fillStyle="rgb("+avg.join(",")+")";tx2.fillRect(0,0,tw,lh);tx2.drawImage(mimg,0,0,tw,lh);
+  tx2.fillStyle="rgb("+sdc.join(",")+")";tx2.fillRect(0,lh,tw,sh2);vf=lh/t.height;vs=(lh+sh2/2)/t.height}
+ if($("mcomp").checked){var p2=function(n){return Math.pow(2,Math.round(Math.log2(Math.max(1,n))))},t3=document.createElement("canvas");t3.width=p2(t.width);t3.height=p2(t.height);t3.getContext("2d").drawImage(t,0,0,t3.width,t3.height);t=t3}
+ var pa=g0.attributes.position.array,na=g0.attributes.normal.array,map=new Map(),P=[],U=[],Nn=[],I=[];g0.dispose();
+ for(i=0;i<pa.length/3;i++){
+  var px=pa[i*3],py=pa[i*3+1],pz=pa[i*3+2],nx=na[i*3],ny=na[i*3+1],nzv=na[i*3+2],side=Math.abs(nzv)<.5;
+  var k=side?Math.round(px*1e4)+","+Math.round(py*1e4)+","+Math.round(pz*1e4)+"s":[px,py,pz,nx,ny,nzv].map(function(q){return Math.round(q*1e4)}).join(","),jj=map.get(k);
+  if(jj===undefined){jj=P.length/3;map.set(k,jj);P.push(px,py,pz);Nn.push(nx,ny,nzv);
+   if(side)U.push(.5,vs);else U.push(Math.min(1,Math.max(0,(px/S+w/2)/w)),Math.min(1,Math.max(0,(h/2-py/S)/h))*vf)}
+  else if(side){Nn[jj*3]+=nx;Nn[jj*3+1]+=ny;Nn[jj*3+2]+=nzv}
+  I.push(jj)}
+ for(i=0;i<Nn.length;i+=3){var ln=Math.hypot(Nn[i],Nn[i+1],Nn[i+2])||1;Nn[i]/=ln;Nn[i+1]/=ln;Nn[i+2]/=ln}
+ mdata={P:new Float32Array(P),U:new Float32Array(U),N:new Float32Array(Nn),I:new Uint32Array(I),t:t};
+ var tri=I.length/3;TL("mesh",tri,window.__mname||"Logo");
+ $("mtri").textContent=tri.toLocaleString("id-ID")+" segitiga";$("mst1").textContent=tri.toLocaleString("id-ID");$("mst2").textContent=(P.length/3).toLocaleString("id-ID");
+ $("mbar").style.width=Math.min(100,tri/200)+"%";
+ $("mbadge").textContent=tri<=3000?"✓ Teroptimasi — sangat ringan untuk Roblox":tri<=8000?"✓ Ringan — aman untuk Roblox":tri<=12000?"Sedang — masih aman untuk Roblox":"Berat — turunkan batas segitiga jika model terasa lambat";
+ $("mglb").disabled=false;$("mobj").disabled=false;$("mcopy").disabled=false;
+ var base=mdata.P.byteLength+mdata.U.byteLength+mdata.N.byteLength+mdata.I.byteLength;
+ t.toBlob(function(b){$("mst3").textContent=Math.max(1,Math.round((base+b.size)/1024)).toLocaleString("id-ID")+" KB"},"image/png");
+ if(!mr)return;
+ var g=new THREE.BufferGeometry();g.setAttribute("position",new THREE.BufferAttribute(mdata.P,3));g.setAttribute("normal",new THREE.BufferAttribute(mdata.N,3));g.setAttribute("uv",new THREE.BufferAttribute(mdata.U,2));g.setIndex(new THREE.BufferAttribute(mdata.I,1));
+ var tx=new THREE.CanvasTexture(t);tx.flipY=false;tx.encoding=THREE.sRGBEncoding;tx.generateMipmaps=false;tx.minFilter=THREE.LinearFilter;
+ if(mm){ms.remove(mm);mm.geometry.dispose();mm.material.map.dispose()}
+ var mtl=opt.mat==="metal"?new THREE.MeshStandardMaterial({map:tx,metalness:1,roughness:+$("mrgh").value,side:THREE.DoubleSide,wireframe:wire}):new THREE.MeshLambertMaterial({map:tx,side:THREE.DoubleSide,wireframe:wire});
+ mm=new THREE.Mesh(g,mtl);ms.add(mm);msize();
+}
+function mload(file){
+ if(!file||!/^image\//.test(file.type))return;
+ var im=new Image();
+ im.onload=function(){
+  mimg=im;var c=document.createElement("canvas");c.width=c.height=64;var x=c.getContext("2d");x.drawImage(im,0,0,64,64);var d=x.getImageData(0,0,64,64).data;hasA=false;
+  for(var i=3;i<d.length;i+=4)if(d[i]<250){hasA=true;break}
+  $("mempty").style.display="none";mrot={x:0,y:0};auto=false;$("mrot").style.opacity=.5;mz=Math.max(3,+$("mwid").value*1.3);
+  $("mstat").textContent=file.name+" · "+im.width+"×"+im.height+(hasA?" · transparan terdeteksi ✓":" · tanpa transparan, area gelap dijadikan 3D");window.__mname=file.name;T("mesh","Logo diproses: "+file.name);
+  build();
+ };
+ im.onerror=function(){$("mstat").textContent="Gagal membaca gambar."};
+ im.src=URL.createObjectURL(file);
+}
+$("mfile").onchange=function(){mload(this.files[0])};
+var md=$("mdrop");
+["dragenter","dragover"].forEach(function(e){md.addEventListener(e,function(ev){ev.preventDefault();md.classList.add("on")})});
+["dragleave","drop"].forEach(function(e){md.addEventListener(e,function(ev){ev.preventDefault();md.classList.remove("on")})});
+md.addEventListener("drop",function(e){mload(e.dataTransfer.files[0])});
+[["mthr","mtv",""],["mnz","mnv",""],["mmax","mxv",""],["mdep","mdv",""],["mwid","mwv",""],["mfine","mfv",""]].forEach(function(r){$(r[0]).oninput=function(){$(r[1]).textContent=this.value+r[2];if(r[0]==="mwid")mz=Math.max(3,+this.value*1.3);build()}});
+$("mbev").onchange=build;$("mcomp").onchange=build;
+$("minv").onchange=build;
+seg("mpre",function(v){$("mmax").value=v;$("mxv").textContent=v;build()});
+seg("mtex",function(v){opt.tr=+v;build()});
+seg("mcol",function(v){opt.col=v;$("msw").hidden=v!=="one";build()});
+seg("mmat",function(v){opt.mat=v;$("mrrow").hidden=v!=="metal";build()});
+$("mrgh").oninput=function(){$("mrv").textContent=this.value;if(mm&&mm.material.isMeshStandardMaterial)mm.material.roughness=+this.value};
+var sws=$("msw").querySelectorAll("button");
+sws.forEach(function(b){b.onclick=function(){$("mclr").value=b.dataset.c;sws.forEach(function(x){x.classList.toggle("on",x===b)});build()}});
+$("mclr").oninput=function(){sws.forEach(function(x){x.classList.remove("on")});build()};
+function pbl(r,g,b){var c=document.createElement("canvas");c.width=c.height=8;var x=c.getContext("2d");x.fillStyle="rgb("+r+","+g+","+b+")";x.fillRect(0,0,8,8);return new Promise(function(f){c.toBlob(f,"image/png")})}
+async function glb(){
+ var m=mdata,png=new Uint8Array(await(await new Promise(function(r){m.t.toBlob(r,"image/png")})).arrayBuffer());
+ var pn=m.P.length/3,mn=[1e9,1e9,1e9],mx=[-1e9,-1e9,-1e9],i,c;
+ for(i=0;i<pn;i++)for(c=0;c<3;c++){var v=m.P[i*3+c];if(v<mn[c])mn[c]=v;if(v>mx[c])mx[c]=v}
+ var metal=opt.mat==="metal",rg=Math.round(+$("mrgh").value*255),mrb=metal?new Uint8Array(await(await pbl(0,rg,255)).arrayBuffer()):null;
+ var pb=m.P.byteLength,ub=m.U.byteLength,nb=m.N.byteLength,ib=m.I.byteLength,o2=pb,o3=o2+ub,o4=o3+nb,o5=o4+ib,o6=o5+png.length,tot=o6+(mrb?mrb.length:0);
+ var J={asset:{version:"2.0",generator:"SAID STUDIO"},scene:0,scenes:[{nodes:[0]}],nodes:[{mesh:0,name:"SAIDLogo"}],
+  meshes:[{primitives:[{attributes:{POSITION:0,TEXCOORD_0:1,NORMAL:2},indices:3,material:0}]}],
+  materials:[{pbrMetallicRoughness:{baseColorTexture:{index:0},metallicFactor:mrb?1:0,roughnessFactor:1},doubleSided:true}],
+  textures:[{source:0,sampler:0}],samplers:[{magFilter:9729,minFilter:9729,wrapS:33071,wrapT:33071}],images:[{bufferView:4,mimeType:"image/png"}],
+  accessors:[{bufferView:0,componentType:5126,count:pn,type:"VEC3",min:mn,max:mx},{bufferView:1,componentType:5126,count:pn,type:"VEC2"},{bufferView:2,componentType:5126,count:pn,type:"VEC3"},{bufferView:3,componentType:5125,count:m.I.length,type:"SCALAR"}],
+  bufferViews:[{buffer:0,byteOffset:0,byteLength:pb,target:34962},{buffer:0,byteOffset:o2,byteLength:ub,target:34962},{buffer:0,byteOffset:o3,byteLength:nb,target:34962},{buffer:0,byteOffset:o4,byteLength:ib,target:34963},{buffer:0,byteOffset:o5,byteLength:png.length}],
+  buffers:[{byteLength:tot}]};
+ if(mrb){J.materials[0].pbrMetallicRoughness.metallicRoughnessTexture={index:1};J.textures.push({source:1,sampler:0});J.images.push({bufferView:5,mimeType:"image/png"});J.bufferViews.push({buffer:0,byteOffset:o6,byteLength:mrb.length})}
+ var js=new TextEncoder().encode(JSON.stringify(J)),jp=(4-js.length%4)%4,bp=(4-tot%4)%4;
+ var total=12+8+js.length+jp+8+tot+bp,buf=new ArrayBuffer(total),dv=new DataView(buf),u8=new Uint8Array(buf);
+ dv.setUint32(0,0x46546C67,true);dv.setUint32(4,2,true);dv.setUint32(8,total,true);
+ dv.setUint32(12,js.length+jp,true);dv.setUint32(16,0x4E4F534A,true);u8.set(js,20);u8.fill(32,20+js.length,20+js.length+jp);
+ var b0=20+js.length+jp;dv.setUint32(b0,tot+bp,true);dv.setUint32(b0+4,0x004E4942,true);
+ var q0=b0+8;u8.set(new Uint8Array(m.P.buffer),q0);u8.set(new Uint8Array(m.U.buffer),q0+o2);u8.set(new Uint8Array(m.N.buffer),q0+o3);u8.set(new Uint8Array(m.I.buffer),q0+o4);u8.set(png,q0+o5);if(mrb)u8.set(mrb,q0+o6);
+ save(new Blob([buf],{type:"model/gltf-binary"}),"SAID-STUDIO-logo.glb");
+}
+async function objzip(){
+ var m=mdata,L=["mtllib logo.mtl","o SAIDLogo"],i;
+ for(i=0;i<m.P.length;i+=3)L.push("v "+m.P[i].toFixed(5)+" "+m.P[i+1].toFixed(5)+" "+m.P[i+2].toFixed(5));
+ for(i=0;i<m.U.length;i+=2)L.push("vt "+m.U[i].toFixed(5)+" "+(1-m.U[i+1]).toFixed(5));
+ for(i=0;i<m.N.length;i+=3)L.push("vn "+m.N[i].toFixed(4)+" "+m.N[i+1].toFixed(4)+" "+m.N[i+2].toFixed(4));
+ L.push("usemtl logo");
+ for(i=0;i<m.I.length;i+=3){var a=m.I[i]+1,b=m.I[i+1]+1,c=m.I[i+2]+1;L.push("f "+a+"/"+a+"/"+a+" "+b+"/"+b+"/"+b+" "+c+"/"+c+"/"+c)}
+ var z=new JSZip();var mt2=opt.mat==="metal",rr=Math.round(+$("mrgh").value*255);
+ z.file("logo.obj",L.join("\n"));z.file("logo.mtl","newmtl logo\nKd 1 1 1\nmap_Kd logo.png\n"+(mt2?"map_Pm logo_metalness.png\nmap_Pr logo_roughness.png\n":""));
+ if(mt2){z.file("logo_metalness.png",await pbl(255,255,255));z.file("logo_roughness.png",await pbl(rr,rr,rr))}
+ z.file("logo.png",await new Promise(function(r){m.t.toBlob(r,"image/png")}));
+ save(await z.generateAsync({type:"blob"}),"SAID-STUDIO-logo-obj.zip");
+}
+function objText(){var m=mdata,L=["mtllib logo.mtl","o SAIDLogo"],i;
+ for(i=0;i<m.P.length;i+=3)L.push("v "+m.P[i].toFixed(5)+" "+m.P[i+1].toFixed(5)+" "+m.P[i+2].toFixed(5));
+ for(i=0;i<m.U.length;i+=2)L.push("vt "+m.U[i].toFixed(5)+" "+(1-m.U[i+1]).toFixed(5));
+ for(i=0;i<m.N.length;i+=3)L.push("vn "+m.N[i].toFixed(4)+" "+m.N[i+1].toFixed(4)+" "+m.N[i+2].toFixed(4));
+ L.push("usemtl logo");
+ for(i=0;i<m.I.length;i+=3){var a=m.I[i]+1,b=m.I[i+1]+1,c=m.I[i+2]+1;L.push("f "+a+"/"+a+"/"+a+" "+b+"/"+b+"/"+b+" "+c+"/"+c+"/"+c)}
+ return L.join("\n")}
+$("mcopy").onclick=function(){var b=this,txt=objText();
+ function ok(){b.textContent="Tersalin ✓";setTimeout(function(){b.textContent="Salin teks OBJ"},1800)}
+ function fb(){var a=document.createElement("textarea");a.value=txt;document.body.appendChild(a);a.select();try{document.execCommand("copy");ok()}catch(e){b.textContent="Gagal menyalin"}a.remove()}
+ if(navigator.clipboard){navigator.clipboard.writeText(txt).then(ok,fb)}else fb()};
+$("mglb").onclick=function(){glb();T("dl","Unduh logo .glb")};$("mobj").onclick=function(){objzip();T("dl","Unduh logo .obj (ZIP)")};
+var gst=$("gstage"),gr,gs,gc,gobj=null,gsc=null,gtexs=[],grot={x:0,y:0},gz=4,gdrag=null,gtr=1024,gname="model",gbytes=0;
+try{gr=new THREE.WebGLRenderer({antialias:!matchMedia("(max-width:860px)").matches,alpha:true});gr.setPixelRatio(Math.min(devicePixelRatio,matchMedia("(max-width:860px)").matches?1.5:2));gr.outputEncoding=THREE.sRGBEncoding;gst.appendChild(gr.domElement);gs=new THREE.Scene();gc=new THREE.PerspectiveCamera(40,1.6,.01,1000);gs.add(new THREE.AmbientLight(0xffffff,.8));var gdl=new THREE.DirectionalLight(0xffffff,.8);gdl.position.set(2,3,5);gs.add(gdl)}catch(e){gr=null}
+function gsize(){if(!gr)return;var w=gst.clientWidth,h=gst.clientHeight;if(!w)return;gr.setSize(w,h,false);gc.aspect=w/h;gc.updateProjectionMatrix()}
+addEventListener("resize",gsize);
+(function gloop(){requestAnimationFrame(gloop);if(document.hidden||!gr||!gobj||!document.body.classList.contains("glb"))return;if(!gdrag)grot.y+=.004;gobj.rotation.set(grot.x,grot.y,0);gc.position.set(0,0,gz);gc.lookAt(0,0,0);gr.render(gs,gc)})();
+gst.addEventListener("pointerdown",function(e){gdrag={x:e.clientX,y:e.clientY};gst.setPointerCapture(e.pointerId)});
+gst.addEventListener("pointermove",function(e){if(!gdrag)return;grot.y+=(e.clientX-gdrag.x)*.01;grot.x=Math.max(-1.4,Math.min(1.4,grot.x+(e.clientY-gdrag.y)*.01));gdrag={x:e.clientX,y:e.clientY}});
+gst.addEventListener("pointerup",function(){gdrag=null});
+gst.addEventListener("wheel",function(e){e.preventDefault();gz=Math.max(1.2,Math.min(30,gz*(1+e.deltaY*.001)))},{passive:false});
+function gtex(max){gtexs.forEach(function(t){var o=t.userData.o||(t.userData.o=t.image),w=o.width||o.naturalWidth,h=o.height||o.naturalHeight;if(!w)return;var s=max?Math.min(1,max/Math.max(w,h)):1;if(s>=1){t.image=o}else{var c=document.createElement("canvas");c.width=Math.max(1,Math.round(w*s));c.height=Math.max(1,Math.round(h*s));c.getContext("2d").drawImage(o,0,0,c.width,c.height);t.image=c}t.needsUpdate=true})}
+function gload(file){
+ if(!file||!/\.glb$/i.test(file.name)){$("gstat").textContent="Pilih file berekstensi .glb.";return}
+ if(!window.THREE||!THREE.GLTFLoader){$("gbadge").textContent="Library belum termuat, muat ulang halaman.";return}
+ file.arrayBuffer().then(function(buf){
+  gbytes=buf.byteLength;gname=file.name.replace(/\.glb$/i,"");
+  new THREE.GLTFLoader().parse(buf,"",function(g){
+   var sc=g.scene,tri=0,vc=0,set=new Set(),keys=["map","normalMap","roughnessMap","metalnessMap","aoMap","emissiveMap"];
+   sc.traverse(function(o){if(!o.isMesh)return;var gm=o.geometry,p=gm.attributes.position;vc+=p.count;tri+=(gm.index?gm.index.count:p.count)/3;
+    [].concat(o.material).forEach(function(m){if(m)keys.forEach(function(k){if(m[k]&&m[k].image)set.add(m[k])})})});
+   gtexs=Array.from(set);gsc=sc;tri=Math.round(tri);
+   $("gtri").textContent=tri.toLocaleString("id-ID")+" segitiga";$("gst1").textContent=tri.toLocaleString("id-ID");$("gst2").textContent=vc.toLocaleString("id-ID");$("gst3").textContent=gtexs.length;
+   $("gbar").style.width=Math.min(100,tri/200)+"%";
+   $("gbadge").textContent=tri<=3000?"✓ Teroptimasi — sangat ringan untuk Roblox":tri<=20000?"✓ Ringan — aman untuk Roblox":"Berat — di atas 20.000 segitiga, kurangi dulu di Blender sebelum diunggah";
+   $("gstat").textContent=file.name+" · "+Math.round(gbytes/1024).toLocaleString("id-ID")+" KB";
+   $("gdl").disabled=false;$("gempty").style.display="none";$("gmsg").textContent="Jumlah segitiga tidak diubah, hanya tekstur yang dikecilkan. Untuk mengurangi segitiga, pakai Blender (modifier Decimate).";
+   gtex(gtr);
+   TL("glb",tri,file.name);T("glbload","Model GLB diperiksa: "+file.name);var bx=new THREE.Box3().setFromObject(sc),sz=bx.getSize(new THREE.Vector3()),ct=bx.getCenter(new THREE.Vector3()),cl=sc.clone(true);
+   cl.position.sub(ct);if(gobj)gs.remove(gobj);gobj=new THREE.Group();gobj.add(cl);gobj.scale.setScalar(2/(Math.max(sz.x,sz.y,sz.z)||1));gs.add(gobj);grot={x:0,y:0};gz=4;gsize();
+  },function(){$("gstat").textContent="Gagal membaca model. Pastikan file .glb valid."})});
+}
+$("gfile").onchange=function(){gload(this.files[0])};
+var gd=$("gdrop");
+["dragenter","dragover"].forEach(function(e){gd.addEventListener(e,function(ev){ev.preventDefault();gd.classList.add("on")})});
+["dragleave","drop"].forEach(function(e){gd.addEventListener(e,function(ev){ev.preventDefault();gd.classList.remove("on")})});
+gd.addEventListener("drop",function(e){gload(e.dataTransfer.files[0])});
+seg("gtex",function(v){gtr=+v;if(gsc)gtex(gtr)});
+$("gdl").onclick=function(){
+ if(!gsc)return;gtex(gtr);
+ try{new THREE.GLTFExporter().parse(gsc,function(buf){save(new Blob([buf],{type:"model/gltf-binary"}),gname+"-roblox.glb");T("glb","GLB diringankan: "+gname);$("gmsg").textContent="Selesai: "+Math.round(buf.byteLength/1024).toLocaleString("id-ID")+" KB (asli "+Math.round(gbytes/1024).toLocaleString("id-ID")+" KB)."},{binary:true,onlyVisible:false})}
+ catch(e){$("gmsg").textContent="Gagal membuat file .glb."}};
+var SF="https://api.sketchfab.com/v3/";
+function sfk(v){try{if(v===undefined)return localStorage.getItem("sf_tok")||"";if(v)localStorage.setItem("sf_tok",v);else localStorage.removeItem("sf_tok")}catch(e){}return ""}
+function sfm(t,bad){$("sfmsg").textContent=t;$("sfmsg").style.color=bad?"#c0392b":""}
+$("sfT1").onclick=$("sfT2").onclick=function(){var one=this.id==="sfT1";$("sfT1").classList.toggle("on",one);$("sfT2").classList.toggle("on",!one);$("sfP1").hidden=!one;$("sfP2").hidden=one};
+function sfuid(u){var m=String(u).match(/([0-9a-f]{32})(?:[\/?#]|$)/i);return m?m[1].toLowerCase():""}
+async function sfrun(url){
+ var uid=sfuid(url);if(!uid){sfm("Link tidak dikenali. Tempel link halaman model Sketchfab.",1);return}
+ $("sfgo").disabled=true;$("sfopen").hidden=true;$("sfst").textContent="Memeriksa…";
+ try{
+  var r=await fetch(SF+"models/"+uid);if(!r.ok)throw new Error(r.status===404?"Model tidak ditemukan atau bersifat privat.":"Gagal membaca info model ("+r.status+").");
+  var m=await r.json();
+  if(!m.isDownloadable){sfm("Pembuat model ini tidak mengaktifkan download, jadi tidak bisa dikonversi. Coba model lain lewat Cari Model 3D.",1);$("sfst").textContent="Tidak bisa";$("sfgo").disabled=false;return}
+  var fc=m.faceCount||0,lic=m.license&&m.license.label||"tidak disebut",au=m.user&&m.user.displayName||"?";
+  $("sfopen").href=m.viewerUrl;$("sfopen").hidden=false;
+  sfm("Boleh didownload: “"+m.name+"” oleh "+au+", lisensi "+lic+", "+fc.toLocaleString("id-ID")+" segitiga"+(fc>20000?" (di atas 20.000, kurangi di Blender sebelum ke Roblox)":"")+". Klik tombol di bawah, login Sketchfab, pilih Download 3D Model lalu format glTF binary (.glb), kemudian unggah filenya di bagian bawah. Cantumkan kredit sesuai lisensi.");
+  $("sfst").textContent="Boleh didownload";T("sf","Cek Sketchfab: "+m.name)}
+ catch(e){sfm(e&&e.message&&!/fetch/i.test(e.message)?e.message:"Tidak bisa terhubung ke Sketchfab. Fitur ini perlu dijalankan di hosting sendiri (Vercel atau Netlify), bukan di halaman pratinjau claude.ai.",1);$("sfst").textContent="Gagal"}
+ $("sfgo").disabled=false}
+$("sfgo").onclick=function(){sfrun($("sfurl").value.trim())};
+$("sfurl").onkeydown=function(e){if(e.key==="Enter")$("sfgo").click()};
+var sft=0,sflast="";$("sfurl").oninput=function(){clearTimeout(sft);var v=this.value.trim(),u=sfuid(v);if(!u||u===sflast)return;sft=setTimeout(function(){sflast=u;sfrun(v)},350)};
+var CATS=[["Arsitektur & Gedung","Rumah, jembatan, kastil & kota","architecture"],["Kendaraan & Transportasi","Mobil, motor, pesawat & kapal","cars-vehicles"],["Karakter & Humanoid","Avatar, anime, monster & figur","characters-creatures"],["Senjata & Perlengkapan","Pedang, perisai, armor & aksesoris","weapons-military"],["Alam & Lingkungan","Pohon, batu, pulau & vegetasi","nature-plants"],["Sci-Fi & Cyberpunk","Robot, gadget, terminal & futuristik","science-technology"]];
+var sc0=$("sfcat");sc0.innerHTML='<option value="">Semua Kategori</option>';
+CATS.forEach(function(c){var o=document.createElement("option");o.value=c[2];o.textContent=c[0];sc0.appendChild(o);
+ var b=document.createElement("button");b.className="face";b.innerHTML="<b></b><small></small>";b.firstChild.textContent=c[0];b.lastChild.textContent=c[1];
+ b.onclick=function(){$("sfq").value="";sc0.value=c[2];sfsearch()};$("sfcats").appendChild(b)});
+["Low Poly","Roblox","Bridge","Building","Weapon","Car","Anime","Sword","House","Character"].forEach(function(t){var b=document.createElement("button");b.className="kb";b.textContent=t;b.onclick=function(){$("sfq").value=t;sfsearch()};$("sfchips").appendChild(b)});
+async function sfsearch(){
+ var q=$("sfq").value.trim(),c=$("sfcat").value,o=$("sfres");
+ if(!q&&!c){o.textContent="Ketik kata kunci atau pilih kategori.";return}
+ o.textContent="Mencari…";
+ try{var r=await fetch(SF+"search?type=models&downloadable=true&count=24&sort_by="+encodeURIComponent($("sfsort").value)+(q?"&q="+encodeURIComponent(q):"")+(c?"&categories="+c:""));if(!r.ok)throw new Error("x");var j=await r.json();o.textContent="";
+  if(!j.results||!j.results.length){o.textContent="Tidak ada model yang bisa didownload untuk pencarian itu.";return}
+  j.results.forEach(function(m){var b=document.createElement("button");b.className="kb";b.style.cssText="display:block;width:100%;text-align:left;margin-top:8px";b.textContent=m.name+" · "+(m.user&&m.user.displayName||"")+" · "+(m.faceCount||0).toLocaleString("id-ID")+" segitiga · "+((m.faceCount||0)>20000?"Melebihi batas Roblox (>20k)":"Aman untuk Roblox");b.onclick=function(){$("sfT1").click();$("sfurl").value=m.viewerUrl;sfrun(m.viewerUrl)};o.appendChild(b)})}
+ catch(e){o.textContent="Pencarian gagal. Fitur ini perlu dijalankan di hosting sendiri, bukan di halaman pratinjau claude.ai."}}
+$("sfsgo").onclick=sfsearch;$("sfq").onkeydown=function(e){if(e.key==="Enter")sfsearch()};
+$("sfcat").onchange=$("sfsort").onchange=function(){if($("sfq").value.trim()||$("sfcat").value)sfsearch()};
+var SYS="Kamu adalah asisten ahli scripting Roblox (Luau). Tulis kode Luau yang benar dan aman, pisahkan server dan client dengan jelas, gunakan API modern, dan beri penjelasan singkat. Balas dalam bahasa yang dipakai pengguna.";
+var MODEL="claude-opus-5-5",hist=[],busy=false,smp=null,ctl=null,EMPTY='<div class="aempty">Tanyakan apa saja seputar scripting Roblox.</div>';
+function fill(m,text){m.textContent="";
+ text.split("```").forEach(function(s,i){
+  if(i%2===0){if(s)m.appendChild(document.createTextNode(s));return}
+  var code=s.replace(/^[a-zA-Z0-9_+-]*\n/,"").replace(/\n$/,""),pre=document.createElement("pre"),cb=document.createElement("button"),c=document.createElement("code");
+  c.textContent=code;cb.textContent="Salin";cb.onclick=function(){if(navigator.clipboard)navigator.clipboard.writeText(code);cb.textContent="Tersalin ✓";setTimeout(function(){cb.textContent="Salin"},1500)};
+  pre.appendChild(cb);pre.appendChild(c);m.appendChild(pre)})}
+function add(role,text){
+ var m=document.createElement("div");m.className="msg "+(role==="user"?"u":"a");fill(m,text);
+ var e=$("chat").querySelector(".aempty");if(e)e.remove();$("chat").appendChild(m);$("chat").scrollTop=1e9;return m}
+function awarn(t){var w=$("awarn");w.hidden=!t;w.textContent=t||""}
+try{if(window.claude&&claude.use)claude.use("sample").then(function(f){smp=f;if(!f)awarn("Asisten AI hanya jalan saat halaman dibuka lewat link artifact di claude.ai dengan akun Claude.")},function(){})}catch(e){}
+$("aclr").onclick=function(){if(ctl)ctl.abort();hist=[];$("chat").innerHTML=EMPTY;awarn("")};
+async function send(){
+ var t=$("ain").value.trim();if(!t||busy)return;
+ if(!smp){awarn("Asisten AI hanya jalan saat halaman dibuka lewat link artifact di claude.ai dengan akun Claude.");return}
+ awarn("");busy=true;ctl=new AbortController();$("asend").textContent="Stop";$("ain").value="";
+ hist.push({role:"user",content:t});add("user",t);var w=add("assistant","Sedang berpikir…");
+ try{
+  var r=await smp([{role:"user",content:SYS}].concat(hist),{model:MODEL,modelTier:"complex",cache:false,signal:ctl.signal,onText:function(u){fill(w,u.text);$("chat").scrollTop=1e9}});
+  hist.push({role:"assistant",content:r.text});fill(w,r.text);T("ai","Bertanya ke asisten AI");if(r.truncated)awarn("Jawaban terpotong. Minta bagian berikutnya atau pecah pertanyaannya.")}
+ catch(e){
+  if(e.text){hist.push({role:"assistant",content:e.text});fill(w,e.text)}else{hist.pop();w.remove()}
+  var M={not_granted:"Izin untuk memakai Claude belum diberikan. Kirim pesan lagi dan pilih izinkan.",rate_limited:"Terlalu sering atau batas pemakaian Claude-mu tercapai. Coba lagi nanti.",session_expired:"Sesi habis. Masuk lagi ke claude.ai lalu coba lagi.",sampling_disabled:"Claude tidak tersedia untuk akun atau organisasi ini."};
+  if(e.code!=="cancelled")awarn(M[e.code]||"Gagal menjawab. Coba kirim lagi.")}
+ busy=false;ctl=null;$("asend").textContent="Kirim"}
+$("asend").onclick=function(){if(busy){if(ctl)ctl.abort()}else send()};
+$("ain").onkeydown=function(e){if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();send()}};
+var run=0;
+function wait(){return new Promise(function(r){setTimeout(r,0)})}
+$("go").onclick=async function(){
+ if(orig)img=makeAdj(false)||orig;var btn=this,N=+$("size").value,W=img.width,H=img.height,my=++run;
+ btn.disabled=true;
+ var c=document.createElement("canvas");c.width=W;c.height=H;
+ var cx=c.getContext("2d");cx.drawImage(img,0,0);
+ var d=cx.getImageData(0,0,W,H).data;
+ out={};
+ for(var i=0;i<6;i++){
+  btn.textContent="Membuat sky HD: "+FACES[i].n+" ("+(i+1)+"/6)…";await wait();if(my!==run)return;
+  var F=FACES[i],cv=document.createElement("canvas");cv.width=cv.height=N;
+  var ctx=cv.getContext("2d"),id=ctx.createImageData(N,N),o=id.data;
+  for(var y=0;y<N;y++){
+   var b=1-2*y/(N-1);
+   for(var x=0;x<N;x++){
+    var a=2*x/(N-1)-1;
+    var dx=F.f[0]+a*F.r[0]+b*F.u[0],dy=F.f[1]+a*F.r[1]+b*F.u[1],dz=F.f[2]+a*F.r[2]+b*F.u[2];
+    var l=Math.sqrt(dx*dx+dy*dy+dz*dz);
+    var u=.5+Math.atan2(dx,-dz)/(2*Math.PI),v=.5-Math.asin(dy/l)/Math.PI;
+    var px=u*W-.5,py=v*H-.5,x0=Math.floor(px),y0=Math.floor(py),fx=px-x0,fy=py-y0;
+    var xa=((x0%W)+W)%W,xb=(xa+1)%W,ya=Math.max(0,Math.min(H-1,y0)),yb=Math.max(0,Math.min(H-1,y0+1));
+    var p=(y*N+x)*4;
+    for(var k=0;k<3;k++){
+     var t=d[(ya*W+xa)*4+k]*(1-fx)+d[(ya*W+xb)*4+k]*fx,s=d[(yb*W+xa)*4+k]*(1-fx)+d[(yb*W+xb)*4+k]*fx;
+     o[p+k]=t*(1-fy)+s*fy;
+    }
+    o[p+3]=255;
+   }
+  }
+  ctx.putImageData(id,0,0);out[F.k]=cv;$("f"+F.k).disabled=false;
+ }
+ $("zip").disabled=false;$("zipS").disabled=false;btn.disabled=false;btn.textContent="Proses ulang";T("sky","Skybox dibuat · "+N+"px · "+W+"×"+H);
+};
+function blob(k){return new Promise(function(r){out[k].toBlob(r,"image/jpeg",+$("qual").value/100)})}
+function save(b,name){var a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},2000)}
+async function dl(k){save(await blob(k),"Skybox"+k+".jpg");T("dl","Unduh Skybox"+k+".jpg")}
+$("zip").onclick=async function(){
+ var z=new JSZip();
+ for(var i=0;i<6;i++){z.file("Skybox"+FACES[i].k+".jpg",await blob(FACES[i].k))}
+ save(await z.generateAsync({type:"blob"}),"SAID-STUDIO-skybox.zip");T("dl","Unduh skybox ZIP (6 sisi)");
+};
+$("zipS").onclick=async function(){
+ var b=this,S=ps.s[0],T=ps.s[1],R=500,P=[],ob=["# SAID STUDIO sky sphere"],vt=[],vn=[],fc=[];
+ b.disabled=true;var old=b.textContent;b.textContent="Membuat sphere…";await wait();
+ for(var i=0;i<=T;i++){var la=(.5-i/T)*Math.PI,cl=Math.cos(la),sl=Math.sin(la);
+  for(var j=0;j<=S;j++){var lo=(j/S-.5)*2*Math.PI,q=[cl*Math.sin(lo),sl,-cl*Math.cos(lo)];P.push(q);
+   ob.push("v "+(q[0]*R).toFixed(3)+" "+(q[1]*R).toFixed(3)+" "+(q[2]*R).toFixed(3));
+   vt.push("vt "+(j/S).toFixed(5)+" "+(1-i/T).toFixed(5));
+   vn.push("vn "+(-q[0]).toFixed(4)+" "+(-q[1]).toFixed(4)+" "+(-q[2]).toFixed(4))}}
+ function tri(x,y,w){var A=P[x],B=P[y],C=P[w],u=[B[0]-A[0],B[1]-A[1],B[2]-A[2]],v=[C[0]-A[0],C[1]-A[1],C[2]-A[2]],
+  n=[u[1]*v[2]-u[2]*v[1],u[2]*v[0]-u[0]*v[2],u[0]*v[1]-u[1]*v[0]];
+  if(Math.hypot(n[0],n[1],n[2])<1e-9)return;
+  if(n[0]*A[0]+n[1]*A[1]+n[2]*A[2]>0){var t=y;y=w;w=t}
+  fc.push("f "+(x+1)+"/"+(x+1)+"/"+(x+1)+" "+(y+1)+"/"+(y+1)+"/"+(y+1)+" "+(w+1)+"/"+(w+1)+"/"+(w+1))}
+ for(var i=0;i<T;i++)for(var j=0;j<S;j++){var a=i*(S+1)+j,c=a+S+1;tri(a,c,a+1);tri(a+1,c,c+1)}
+ var Wt=Math.min(img.width,ps.t),tc=document.createElement("canvas");tc.width=Wt;tc.height=Wt/2;tc.getContext("2d").drawImage(img,0,0,Wt,Wt/2);
+ var jb=await new Promise(function(r){tc.toBlob(r,"image/jpeg",+$("qual").value/100)});
+ var z=new JSZip();z.file("SkySphere.obj",ob.concat(vt,vn,fc).join("\n"));z.file("SkySphere.jpg",jb);
+ save(await z.generateAsync({type:"blob"}),"SAID-STUDIO-sky-sphere.zip");T("dl","Unduh Sphere 360°");
+ b.textContent=old;b.disabled=false;
+};
+})();
+});</script>
+<script>addEventListener("DOMContentLoaded",function(){
+(function(){
+var AUDIO_ENDPOINT="", /* URL Cloudflare Worker, lihat audio-upload-worker.js */
+MAXB=8,MAXMB=20,MAXSEC=420,OKX=/\.(mp3|ogg|wav|flac)$/i,
+$=function(i){return document.getElementById(i)},q=[],busy=false,uid=0;
+function fsize(b){return b>=1048576?(b/1048576).toFixed(1)+" MB":Math.max(1,Math.round(b/1024))+" KB"}
+function fdur(s){if(!isFinite(s)||s<=0)return"durasi ?";var m=Math.floor(s/60),r=Math.round(s%60);if(r===60){m++;r=0}return m+":"+("0"+r).slice(-2)}
+function base(n){return n.replace(/\.[^.]+$/,"").replace(/[_]+/g," ").trim().slice(0,50)||"Audio"}
+function copy(t,cb){
+ function fb(){try{var a=document.createElement("textarea");a.value=t;a.style.cssText="position:fixed;opacity:0";document.body.appendChild(a);a.select();document.execCommand("copy");document.body.removeChild(a);cb(true)}catch(e){cb(false)}}
+ if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(function(){cb(true)},fb);else fb()}
+$("aubn").hidden=!!AUDIO_ENDPOINT;
+function meta(it){
+ try{var a=new Audio(),u=URL.createObjectURL(it.file);a.preload="metadata";
+  a.onloadedmetadata=function(){it.dur=a.duration;URL.revokeObjectURL(u);paint(it)};
+  a.onerror=function(){URL.revokeObjectURL(u)};a.src=u}catch(e){}}
+function mk(it){
+ var li=document.createElement("li");li.className="afi";
+ var l=document.createElement("div"),n=document.createElement("input"),s=document.createElement("small"),r=document.createElement("div"),b=document.createElement("span"),c=document.createElement("button"),x=document.createElement("button"),bar=document.createElement("div"),bi=document.createElement("i"),e=document.createElement("p");
+ n.className="afn";n.maxLength=50;n.value=it.name;n.setAttribute("aria-label","Nama lagu");n.oninput=function(){it.name=n.value.trim().slice(0,50)||"Audio"};
+ s.className="afs";l.appendChild(n);l.appendChild(s);
+ r.className="afr";b.className="afb";c.className="kb";c.type="button";c.textContent="Salin ID";c.hidden=true;
+ c.onclick=function(){copy("rbxassetid://"+it.id,function(ok){c.textContent=ok?"Tersalin":"Gagal salin";setTimeout(function(){c.textContent="Salin ID"},1400)})};
+ x.className="lnk";x.type="button";x.textContent="Hapus";x.onclick=function(){if(busy)return;q=q.filter(function(z){return z!==it});li.remove();sum()};
+ r.appendChild(b);r.appendChild(c);r.appendChild(x);
+ bar.className="bar";bar.hidden=true;bar.appendChild(bi);e.className="afe";e.hidden=true;
+ li.appendChild(l);li.appendChild(r);li.appendChild(bar);li.appendChild(e);
+ it.el={li:li,n:n,s:s,b:b,c:c,x:x,bar:bar,bi:bi,e:e};paint(it)}
+var LB={wait:"Menunggu",up:"Mengunggah",pr:"Diproses Roblox",ok:"Selesai",err:"Gagal"};
+function paint(it){
+ var E=it.el;if(!E)return;
+ E.s.textContent=fsize(it.file.size)+" · "+fdur(it.dur)+" · "+it.file.name;
+ var k=it.st==="pr"?"up":it.st;E.b.className="afb "+(k==="wait"?"":k);
+ E.b.textContent=it.st==="up"?"Mengunggah "+it.p+"%":LB[it.st];
+ E.bar.hidden=!(it.st==="up"||it.st==="pr");E.bi.style.width=(it.st==="pr"?100:it.p)+"%";
+ E.c.hidden=it.st!=="ok";E.n.disabled=it.st==="ok"||it.st==="up"||it.st==="pr";
+ E.e.hidden=!(it.st==="err"&&it.err);E.e.textContent=it.err||"";
+ E.x.disabled=busy}
+function sum(){
+ var ok=0,er=0,wt=0;q.forEach(function(z){if(z.st==="ok")ok++;else if(z.st==="err")er++;else wt++});
+ $("ast1").textContent=q.length;$("ast2").textContent=ok;$("ast3").textContent=er;
+ $("acnt").textContent=q.length+" / "+MAXB;
+ var done=ok+er;$("abar").style.width=(q.length?Math.round(done/q.length*100):0)+"%";
+ $("ago").disabled=busy||!(wt||er);$("acopy").disabled=!ok;$("aclr").disabled=busy||!q.length;
+ $("ago").textContent=busy?"Mengunggah...":(er&&!wt?"Coba unggah lagi":"Unggah semua ke Roblox");
+ if(!q.length){$("alist").innerHTML='<li class="afz">Belum ada lagu.</li>';$("astat").textContent="Tambahkan lagu untuk memulai."}
+ else if(!busy)$("astat").textContent=ok&&!wt&&!er?"Semua lagu selesai diunggah.":(ok||er?ok+" berhasil, "+er+" gagal, "+wt+" menunggu.":q.length+" lagu siap diunggah.")}
+function add(files){
+ var rej=[],list=Array.prototype.slice.call(files),z=$("alist");
+ list.forEach(function(f){
+  if(!OKX.test(f.name)){rej.push(f.name+": format harus MP3, OGG, WAV, atau FLAC");return}
+  if(f.size>MAXMB*1048576){rej.push(f.name+": lebih dari "+MAXMB+" MB");return}
+  if(!f.size){rej.push(f.name+": file kosong");return}
+  if(q.length>=MAXB){rej.push(f.name+": batas "+MAXB+" lagu per batch");return}
+  if(q.some(function(o){return o.file.name===f.name&&o.file.size===f.size&&o.file.lastModified===f.lastModified})){rej.push(f.name+": sudah ada di antrean");return}
+  var it={id:"",file:f,name:base(f.name),st:"wait",p:0,dur:NaN,err:"",k:++uid};
+  if(!q.length)z.innerHTML="";
+  q.push(it);mk(it);z.appendChild(it.el.li);meta(it)});
+ var rj=$("arej");rj.hidden=!rej.length;rj.textContent=rej.join("\n");
+ sum()}
+function up(it){return new Promise(function(res){
+ it.err="";it.p=0;it.st="up";paint(it);
+ if(!AUDIO_ENDPOINT){it.st="err";it.err="Server unggah belum diatur (AUDIO_ENDPOINT kosong).";paint(it);return res()}
+ var x=new XMLHttpRequest(),f=new FormData();f.append("file",it.file,it.file.name);f.append("name",it.name);
+ x.open("POST",AUDIO_ENDPOINT);x.timeout=240000;
+ x.upload.onprogress=function(e){if(e.lengthComputable){it.p=Math.round(e.loaded/e.total*100);paint(it)}};
+ x.upload.onload=function(){it.st="pr";paint(it)};
+ x.onload=function(){var j={};try{j=JSON.parse(x.responseText)}catch(e){}
+  if(x.status>=200&&x.status<300&&j.assetId){it.id=String(j.assetId);it.st="ok";if(window.SS)window.SS.log("aud","Audio diunggah: "+it.name)}
+  else{it.st="err";it.err=j.error||("Gagal ("+x.status+")")}
+  paint(it);res()};
+ x.onerror=function(){it.st="err";it.err="Tidak bisa terhubung ke server unggah.";paint(it);res()};
+ x.ontimeout=function(){it.st="err";it.err="Waktu habis.";paint(it);res()};
+ x.send(f)})}
+$("ago").onclick=function(){
+ if(busy)return;busy=true;q.forEach(paint);sum();$("astat").textContent="Mengunggah...";
+ var todo=q.filter(function(z){return z.st!=="ok"}),i=0;
+ (function next(){
+  if(i>=todo.length){busy=false;q.forEach(paint);sum();return}
+  var it=todo[i++];$("astat").textContent="Mengunggah "+i+" dari "+todo.length+": "+it.name;
+  up(it).then(function(){sum();$("ago").disabled=true;next()})})()};
+$("acopy").onclick=function(){
+ var t=q.filter(function(z){return z.st==="ok"}).map(function(z){return z.name+": rbxassetid://"+z.id}).join("\n"),b=this;
+ copy(t,function(ok){b.textContent=ok?"Tersalin":"Gagal salin";setTimeout(function(){b.textContent="Salin semua Asset ID"},1400)})};
+$("aclr").onclick=function(){if(busy)return;q=[];$("arej").hidden=true;sum()};
+var dr=$("adrop"),fi=$("afile");
+fi.onchange=function(){if(fi.files&&fi.files.length)add(fi.files);fi.value=""};
+["dragenter","dragover"].forEach(function(e){dr.addEventListener(e,function(ev){ev.preventDefault();dr.classList.add("on")})});
+["dragleave","drop"].forEach(function(e){dr.addEventListener(e,function(ev){ev.preventDefault();dr.classList.remove("on")})});
+dr.addEventListener("drop",function(ev){if(ev.dataTransfer&&ev.dataTransfer.files&&ev.dataTransfer.files.length)add(ev.dataTransfer.files)});
+sum();
+})();
+});</script>
+<script>addEventListener("DOMContentLoaded",function(){
+(function(){
+var $=function(i){return document.getElementById(i)},KEY="said_dash_v1",mem=null,
+reduce=matchMedia("(prefers-reduced-motion:reduce)").matches,
+GR={sky:"sky",mesh:"mesh",glb:"glb",glbload:"glb",sf:"glb",aud:"aud",ai:"ai"},
+ORDER=["sky","mesh","glb","aud","ai"],
+NM={sky:"Skybox",mesh:"Logo 3D",glb:"Model GLB",aud:"Audio",ai:"Asisten AI"},
+fmt=function(n){return Number(n).toLocaleString("id-ID")},
+C=2*Math.PI*58,
+TIPS=["Ringankan logo dengan preset Ringan (±3 ribu segitiga) dan matikan Bevel, supaya game tetap mulus di HP.","Skybox HD memberatkan perangkat lama. Untuk game mobile, preset Ringan 1024px sudah tajam dan jauh lebih hemat memori.","Di MeshPart, nonaktifkan CanCollide, CanTouch, CanQuery dan CastShadow bila logo hanya hiasan.","Tekstur Satu warna atau Silver hanya 8×8 piksel, pilihan paling ringan untuk logo polos.","Selalu cantumkan kredit pembuat model Sketchfab sesuai lisensinya sebelum dipakai di game."],
+ti=0,gl=null;
+function load(){
+ if(mem)return mem;
+ try{var r=localStorage.getItem(KEY);if(r)mem=JSON.parse(r)}catch(e){}
+ if(!mem||typeof mem!=="object")mem={};
+ if(!Array.isArray(mem.ev))mem.ev=[];
+ if(!mem.c||typeof mem.c!=="object")mem.c={};
+ if(!mem.last)mem.last=null;
+ return mem}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(mem))}catch(e){}}
+function vis(){return document.body.classList.contains("dash")}
+function log(k,m){var d=load();d.ev.push({t:Date.now(),k:k,m:String(m||"").slice(0,90)});if(d.ev.length>400)d.ev=d.ev.slice(-400);d.c[k]=(d.c[k]||0)+1;save();if(vis())render(false)}
+function last(ty,tri,nm){var d=load();d.last={ty:ty,tri:tri,nm:String(nm||"").slice(0,60),t:Date.now()};save();if(vis())gauge(false)}
+function bounds(){var n=new Date(),a=[],i;for(i=0;i<=7;i++)a.push(new Date(n.getFullYear(),n.getMonth(),n.getDate()-6+i).getTime());return a}
+function z(){return[0,0,0,0,0,0,0]}
+function series(){
+ var b=bounds(),o={sky:z(),mesh:z(),glb:z(),aud:z(),ai:z(),all:z()};
+ load().ev.forEach(function(e){
+  if(e.t<b[0]||e.t>=b[7])return;
+  for(var i=6;i>=0;i--){if(e.t>=b[i]){o.all[i]++;var g=GR[e.k];if(g)o[g][i]++;break}}
+ });
+ return o}
+function total(g){var c=load().c,s=0,k;for(k in GR)if(GR[k]===g)s+=c[k]||0;return s}
+function ago(t){var s=Math.max(0,(Date.now()-t)/1000);if(s<60)return"baru saja";if(s<3600)return Math.floor(s/60)+" mnt lalu";if(s<86400)return Math.floor(s/3600)+" jam lalu";var d=Math.floor(s/86400);return d===1?"kemarin":d+" hari lalu"}
+function count(el,to,anim){
+ el._v=to;
+ if(!anim||reduce||to===0){el.textContent=fmt(to);return}
+ var t0=null,dur=900;
+ function st(t){if(t0===null)t0=t;var p=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-p,3);el.textContent=fmt(Math.round(to*e));if(p<1&&el._v===to)requestAnimationFrame(st)}
+ el.textContent="0";requestAnimationFrame(st)}
+function spark(a){
+ var mx=Math.max(1,Math.max.apply(null,a)),l=a.map(function(v,i){return(i?"L":"M")+(i*20)+" "+(32-v/mx*26).toFixed(1)}).join(" ");
+ return'<path class="sa" d="'+l+' L120 36 L0 36Z"/><path class="sl" d="'+l+'"/>'}
+function kpis(anim){
+ var s=series();
+ Array.prototype.forEach.call(document.querySelectorAll(".kpi"),function(el){
+  var g=el.dataset.k,today=s[g][6];
+  el.querySelector(".spark").innerHTML=spark(s[g]);
+  el.querySelector(".kd").innerHTML=today?"<b>+"+today+"</b> hari ini":"belum ada hari ini";
+  count(el.querySelector(".kn"),total(g),anim)})}
+function chart(){
+ var s=series(),W=560,H=330,L=34,B=30,T=14,R=6,cw=(W-L-R)/7,ch=H-T-B,tot=0,mx=0,i,h="",bs=bounds();
+ for(i=0;i<7;i++){var sum=0;ORDER.forEach(function(g){sum+=s[g][i]});tot+=sum;if(sum>mx)mx=sum}
+ mx=Math.max(4,mx);if(mx%2)mx++;
+ for(i=0;i<=4;i++){var y=T+ch-ch*i/4;h+='<line class="gl" x1="'+L+'" x2="'+(W-R)+'" y1="'+y+'" y2="'+y+'"/><text class="ax" x="'+(L-8)+'" y="'+(y+3.5)+'" text-anchor="end">'+Math.round(mx*i/4)+'</text>'}
+ for(i=0;i<7;i++){
+  var x=L+i*cw+cw*.2,bw=cw*.6,y0=T+ch,lab=i===6?"Hari ini":new Date(bs[i]).toLocaleDateString("id-ID",{weekday:"short"});
+  if(!tot){var gh=ch*[.28,.5,.38,.66,.46,.78,.58][i];h+='<rect class="gh" x="'+x+'" y="'+(y0-gh)+'" width="'+bw+'" height="'+gh+'" rx="3"/>'}
+  else ORDER.forEach(function(g){var n=s[g][i];if(!n)return;var hh=n/mx*ch;y0-=hh;h+='<rect class="bar-'+g+'" style="animation-delay:'+(i*60)+'ms" x="'+x+'" y="'+y0+'" width="'+bw+'" height="'+Math.max(2,hh-1.5)+'" rx="2"><title>'+lab+" · "+NM[g]+": "+n+'</title></rect>'});
+  h+='<text class="ax'+(i===6?" today":"")+'" x="'+(x+bw/2)+'" y="'+(H-9)+'" text-anchor="middle">'+lab+'</text>'}
+ if(!tot)h+='<text class="em" x="'+(W/2)+'" y="'+(T+ch/2)+'" text-anchor="middle">Belum ada aktivitas</text><text class="em2" x="'+(W/2)+'" y="'+(T+ch/2+22)+'" text-anchor="middle">Mulai dari Skybox, Logo ke Mesh 3D, atau Sketchfab ke GLB</text>';
+ $("dchart").innerHTML=h;
+ var all=series().all.reduce(function(a,b){return a+b},0);
+ $("dtot").textContent=fmt(all)+" aksi"}
+function budget(tri,has){
+ var rows=[["Ultra",1500],["Ringan",3000],["Seimbang",8000],["Detail",20000]],h="";
+ rows.forEach(function(r){h+='<div class="bl"><span>'+r[0]+'</span><i><u style="width:'+Math.min(100,r[1]/200)+'%"></u></i><em>'+fmt(r[1])+'</em></div>'});
+ if(has)h+='<div class="bl me"><span>Model kamu</span><i><u style="width:'+Math.max(1,Math.min(100,tri/200))+'%"></u></i><em>'+fmt(tri)+'</em></div>';
+ $("dbudget").innerHTML=h}
+function gauge(anim){
+ var d=load().last,gp=$("dgp"),tri=d?d.tri:0,p=Math.min(1,tri/20000);
+ gp.style.strokeDasharray=C;
+ gp.classList.toggle("bad",tri>20000);
+ if(anim){gp.style.transition="none";gp.style.strokeDashoffset=C;gp.getBoundingClientRect();gp.style.transition=""}
+ gp.style.strokeDashoffset=C*(1-p);
+ count($("dgn"),tri,anim);
+ $("dgname").textContent=d?d.nm:"Belum ada model";
+ $("dltype").textContent=d?(d.ty==="mesh"?"Logo 3D":"Model GLB")+" · "+ago(d.t):"—";
+ $("dgpct").textContent=d?Math.round(tri/200)+"% dari batas aman 20.000 segitiga":"";
+ $("dgbadge").textContent=!d?"Proses logo atau unggah .glb untuk melihat status di sini.":tri<=3000?"✓ Teroptimasi — sangat ringan untuk Roblox":tri<=8000?"✓ Ringan — aman untuk Roblox":tri<=20000?"Sedang — masih aman untuk Roblox":"Berat — kurangi segitiga sebelum dipakai di game";
+ budget(tri,!!d)}
+function feed(){
+ var ev=load().ev.slice(-8).reverse(),h="",ul=$("dfeed");
+ if(!ev.length)h='<li class="empty">Belum ada aktivitas. Mulai dari Skybox, Logo ke Mesh 3D, atau Sketchfab ke GLB, lalu jejaknya muncul di sini.</li>';
+ ev.forEach(function(e){h+='<li><i class="dot d-'+(GR[e.k]||"dl")+'"></i><span></span><small>'+ago(e.t)+'</small></li>'});
+ ul.innerHTML=h;
+ var sp=ul.querySelectorAll("li:not(.empty) span");
+ ev.forEach(function(e,i){if(sp[i])sp[i].textContent=e.m})}
+function webgl(){if(gl===null){try{var c=document.createElement("canvas");gl=!!(c.getContext("webgl")||c.getContext("experimental-webgl"))}catch(e){gl=false}}return gl}
+function lsok(){try{localStorage.setItem("__t","1");localStorage.removeItem("__t");return true}catch(e){return false}}
+function sys(){
+ var rows=[["Render WebGL",webgl(),"Aktif","Tidak didukung"],["Three.js",!!window.THREE,"Dimuat","Gagal dimuat"],["GLTFLoader",!!(window.THREE&&THREE.GLTFLoader),"Dimuat","Gagal dimuat"],["JSZip",!!window.JSZip,"Dimuat","Gagal dimuat"],["D3 (kontur logo)",!!window.d3,"Dimuat","Gagal dimuat"],["Asisten AI",!!(window.claude&&window.claude.use),"Siap","Hanya di claude.ai"],["Penyimpanan lokal",lsok(),"Aktif","Dimatikan"]],ok=0,h="";
+ rows.forEach(function(r){if(r[1])ok++;h+='<li><i class="dot '+(r[1]?"ok":"warn")+'"></i><span>'+r[0]+'</span><small>'+(r[1]?r[2]:r[3])+'</small></li>'});
+ $("dsys").innerHTML=h;$("dsysok").textContent=ok+"/"+rows.length+" aktif"}
+function chips(){
+ var s=series(),c=load().c,all=0,k;for(k in c)all+=c[k]||0;
+ $("dc1").textContent=fmt(s.all[6]);$("dc2").textContent=fmt(c.dl||0);$("dc3").textContent=fmt(all)}
+function tip(n){
+ ti=(n+TIPS.length)%TIPS.length;var el=$("dtip");
+ el.classList.remove("in");void el.offsetWidth;el.textContent=TIPS[ti];el.classList.add("in");
+ $("dtipn").textContent=(ti+1)+"/"+TIPS.length}
+function tick(){
+ if(!vis())return;
+ var n=new Date(),h=n.getHours(),p=function(v){return("0"+v).slice(-2)};
+ $("dgreet").textContent=h<11?"Selamat pagi":h<15?"Selamat siang":h<18?"Selamat sore":"Selamat malam";
+ $("dclock").textContent=p(h)+":"+p(n.getMinutes())+":"+p(n.getSeconds());
+ $("ddate").textContent=n.toLocaleDateString("id-ID",{weekday:"long",day:"numeric",month:"long",year:"numeric"})}
+function render(anim){
+ var a=!!anim;
+ tick();kpis(a);chart();gauge(a);feed();sys();chips();
+ if(!$("dtip").textContent)tip(0)}
+document.addEventListener("click",function(e){
+ var t=e.target&&e.target.closest?e.target.closest("[data-go]"):null;
+ if(t&&window.saidTab)window.saidTab(t.dataset.go)});
+$("dtipnext").onclick=function(){tip(ti+1)};
+$("dclear").onclick=function(){
+ var b=this;
+ if(b.dataset.arm){clearTimeout(b._t);b.dataset.arm="";b.textContent="Reset statistik";mem={ev:[],c:{},last:null};save();render(true);return}
+ b.dataset.arm="1";b.textContent="Yakin? Klik lagi";
+ b._t=setTimeout(function(){b.dataset.arm="";b.textContent="Reset statistik"},3000)};
+setInterval(tick,1000);
+setInterval(function(){if(vis()&&!document.hidden)tip(ti+1)},9000);
+window.SS={log:log,last:last,render:render};
+render(true);
+})();
+});</script>
+<script>addEventListener("DOMContentLoaded",function(){
+(function(){
+var d=document,cur=d.getElementById("cur"),c=d.getElementById("fxc"),
+fine=matchMedia("(pointer:fine)").matches,rm=matchMedia("(prefers-reduced-motion:reduce)").matches,lite=matchMedia("(max-width:860px)").matches||(navigator.hardwareConcurrency||8)<4;
+var pe=null,pq=0;d.addEventListener("pointermove",function(e0){pe=e0;if(pq)return;pq=requestAnimationFrame(function(){pq=0;var e=pe;
+ var t=e.target&&e.target.closest?e.target.closest(".card"):null;
+ if(t){var r=t.getBoundingClientRect();t.style.setProperty("--mx",(e.clientX-r.left)+"px");t.style.setProperty("--my",(e.clientY-r.top)+"px")}
+ if(fine&&cur&&!rm){cur.style.opacity=1;cur.style.transform="translate("+e.clientX+"px,"+e.clientY+"px)"}
+});},{passive:true});
+d.documentElement.addEventListener("mouseleave",function(){if(cur)cur.style.opacity=0});
+if(c&&!rm&&!lite){
+ var x=c.getContext("2d"),W=0,H=0,P=[],n=46,dpr=Math.min(window.devicePixelRatio||1,2),i;
+ function rs(){W=c.width=Math.round(innerWidth*dpr);H=c.height=Math.round(innerHeight*dpr)}
+ function mk(init){return{x:Math.random()*W,y:init?Math.random()*H:H+10,r:(Math.random()*1.5+.4)*dpr,v:(Math.random()*.25+.08)*dpr,a:Math.random()*.5+.2,ph:Math.random()*6.28,dx:(Math.random()-.5)*.14*dpr}}
+ rs();addEventListener("resize",rs);
+ for(i=0;i<n;i++)P.push(mk(true));
+ (function fr(){
+  requestAnimationFrame(fr);
+  if(d.hidden)return;
+  x.clearRect(0,0,W,H);
+  var col=d.documentElement.dataset.theme==="light"?"168,129,47":"236,208,134";
+  for(var k=0;k<P.length;k++){
+   var p=P[k];p.ph+=.012;p.y-=p.v;p.x+=p.dx+Math.sin(p.ph)*.12*dpr;
+   if(p.y<-10){P[k]=mk(false);continue}
+   var al=p.a*(.6+.4*Math.sin(p.ph*2));
+   x.beginPath();x.fillStyle="rgba("+col+","+(al*.14).toFixed(3)+")";x.arc(p.x,p.y,p.r*3.2,0,6.283);x.fill();
+   x.beginPath();x.fillStyle="rgba("+col+","+al.toFixed(3)+")";x.arc(p.x,p.y,p.r,0,6.283);x.fill()}
+ })()}
+})();
+});</script>
+<script>
+(function(){
+var $=function(i){return document.getElementById(i)},b=$("mmb"),p=$("mp"),s=$("mps"),items=p.querySelectorAll(".mpi"),cats=p.querySelectorAll(".mpcat");
+function filt(){var t=s.value.trim().toLowerCase(),n=0;items.forEach(function(i){var m=!t||i.textContent.toLowerCase().indexOf(t)>-1||(i.dataset.k||"").indexOf(t)>-1;i.hidden=!m;if(m)n++});cats.forEach(function(c){c.hidden=!c.querySelector(".mpi:not([hidden])")});$("mpe").hidden=n>0}
+function open(v){p.classList.toggle("on",v);b.setAttribute("aria-expanded",v?"true":"false");if(v&&matchMedia("(pointer:fine)").matches)setTimeout(function(){s.focus()},40);if(!v){s.value="";filt()}}
+b.onclick=function(e){e.stopPropagation();open(!p.classList.contains("on"))};
+s.oninput=filt;
+s.onkeydown=function(e){if(e.key==="Enter"){var f=p.querySelector(".mpi:not([hidden])");if(f)f.click()}};
+document.addEventListener("click",function(e){if(p.classList.contains("on")&&!p.contains(e.target)&&!b.contains(e.target))open(false)});
+document.addEventListener("keydown",function(e){if(e.key==="Escape"&&p.classList.contains("on")){open(false);b.focus()}});
+})();
+</script>
+</body>
+</html>
